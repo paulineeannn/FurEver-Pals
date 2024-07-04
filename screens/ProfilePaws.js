@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, Pressable, TouchableOpacity, navigation, Button, ScrollView, Modal, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Modal, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function ProfilePaws() {
   const navigation = useNavigation();
   const route = useRoute();
 
-  const [modalVisible, setModalVisible] = useState(false);
   const { username } = route.params;
+  const [userInfo, setUserInfo] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+  console.log("logged in successfully");
 
   const handleLogout = () => {
     setModalVisible(true);
@@ -23,58 +25,22 @@ export default function ProfilePaws() {
     setModalVisible(false);
   };
 
-  const fetchPetInfo = async () => {
-    try {
-      const response = await fetch('http://192.168.5.116:8000/user-details?username=' + username, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        if (data) {
-          setUserInfo(data);
-        } else {
-          console.error('Empty response data');
-        }
-      } else {
-        console.error('Failed to fetch user info. Status:', response.status);
-      }
-    } catch (error) {
-      console.error('Error fetching user info:', error);
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchUserInfo();
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
-  if (!userInfo) {
-    return <ActivityIndicator />;
-  }
-
-
   return (
     <ScrollView style={styles.Container}>
       <View style={styles.logoutContainer}>
-        <TouchableOpacity onPress={handleLogout}> 
+        <TouchableOpacity onPress={handleLogout}>
           <Image 
-          source={require('../assets/button-logout.png')}
-          resizeMode="cover">
-          </Image>
+            source={require('../assets/button-logout.png')}
+            resizeMode="cover"
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.AccountContainer}>
-        <Image style={styles.imageProfile} source={require('../assets/profile-placeholder.png')}></Image>
-
+        <Image style={styles.imageProfile} source={require('../assets/profile-placeholder.png')} />
         <View style={styles.AccountInfoContainer}>
-          <Text style={styles.textName}>Name Placeholder</Text>
-          <Text style={styles.textUsername}>Username Placeholder</Text>
+          {/* Display the user's full name and username */}
+          <Text style={styles.textName}>Chachacha Peña</Text>
+          <Text style={styles.textUsername}>{username}</Text>
         </View>
 
         <View style={styles.ProfileNavContainer}>
