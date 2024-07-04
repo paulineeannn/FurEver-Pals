@@ -7,7 +7,7 @@ import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from 'react-native-dropdown-picker';
 
 
-export default function AddPaws() {
+export default function SignUp() {
   const navigation = useNavigation();
 
   const route = useRoute();
@@ -74,7 +74,7 @@ export default function AddPaws() {
     };
 
     try {
-      const response = await fetch('http://192.168.5.116:8000/add-pet', {
+      const response = await fetch('http://192.168.1.195:8000/add-pet', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
