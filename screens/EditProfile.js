@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, Toucha
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
+import config from './config.js';
 
 export default function EditProfile() {
   const navigation = useNavigation();
@@ -30,7 +31,7 @@ export default function EditProfile() {
   // Function to fetch user information from the backend
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://192.168.5.116:8000/user-details?username=${username}`);
+      const response = await fetch(`http://${config.ipAddress}:8000/user-details?username=${username}`);
       if (response.ok) {
         const data = await response.json();
         if (data) {

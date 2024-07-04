@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Image, TextInput, Pressable, navigation, Scroll
 import { useNavigation } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
+import config from './config.js';
 
 export default function SignUp() {
   const navigation = useNavigation();
@@ -90,7 +91,7 @@ export default function SignUp() {
 
 
     try {
-      const response = await fetch('http://192.168.5.116:8000/register', {
+      const response = await fetch(`http://${config.ipAddress}:8000/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

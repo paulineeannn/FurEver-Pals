@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, Pressable, TouchableOpacity, navigation, Button, ScrollView, Modal, Alert } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import config from './config.js';
 
 export default function ProfilePaws() {
   const navigation = useNavigation();
@@ -25,7 +26,7 @@ export default function ProfilePaws() {
 
   const fetchPetInfo = async () => {
     try {
-      const response = await fetch('http://192.168.5.116:8000/user-details?username=' + username, {
+      const response = await fetch(`http://${config.ipAddress}:8000/user-details?username=` + username, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

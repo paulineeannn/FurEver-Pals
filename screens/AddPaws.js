@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import config from './config.js';
 
 export default function AddPaws() {
   const navigation = useNavigation();
@@ -74,7 +74,7 @@ export default function AddPaws() {
     };
 
     try {
-      const response = await fetch('http://192.168.5.116:8000/add-pet', {
+      const response = await fetch(`http://${config.ipAddress}:8000/add-pet`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

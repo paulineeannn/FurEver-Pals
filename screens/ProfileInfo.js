@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, Pressable, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import BottomNavigationBar from './BottomNavigationBar'; 
+import config from './config.js';
 
 export default function ProfileInfo({ navigation, route }) {
   const { username } = route.params;
@@ -32,7 +33,7 @@ export default function ProfileInfo({ navigation, route }) {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://192.168.5.116:8000/user-details?username=${username}`, {
+      const response = await fetch(`http://${config.ipAddress}:8000/user-details?username=${username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
