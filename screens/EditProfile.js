@@ -30,7 +30,7 @@ export default function EditProfile() {
   // Function to fetch user information from the backend
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://192.168.5.116:8000/user-details?username=${username}`);
+      const response = await fetch(`http://192.168.1.195:8000/user-details?username=${username}`);
       if (response.ok) {
         const data = await response.json();
         if (data) {
@@ -113,8 +113,10 @@ export default function EditProfile() {
       environment: environment,
     };
 
+    console.log("Updated user data:", JSON.stringify(user, null, 2));
+
     try {
-      const response = await fetch(`http://192.168.5.116:8000/update-user-details/${username}`, {
+      const response = await fetch(`http://192.168.1.195:8000/update-user-details/${username}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -135,8 +137,6 @@ export default function EditProfile() {
       console.error('Error:', error);
       Alert.alert('Error', 'An error occurred during updating');
     }
-
-    setKey(prevKey => prevKey + 1);
   };
 
   if (!userInfo) {
