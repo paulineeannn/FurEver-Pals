@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, Pressable, ScrollView, Alert, ActivityIndicator } from 'react-native';
-import BottomNavigationBar from './BottomNavigationBar'; 
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function ProfileInfo({ navigation, route }) {
+export default function ProfileInfo() {
+  const navigation = useNavigation();
+  const route = useRoute();
+
   const { username } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
 
-  const [currentRoute, setCurrentRoute] = useState(route.name);
-
-  const handleNavigate = (routeName) => {
-    if (currentRoute !== routeName) {
-      setCurrentRoute(routeName);
-      navigation.navigate(routeName);
-    }
-  };
-  console.log("Profile Info page opened for", username);
+  console.log("logged in successfully");
 
   const handleLogout = () => {
     setModalVisible(true);
@@ -32,7 +27,7 @@ export default function ProfileInfo({ navigation, route }) {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://192.168.5.116:8000/user-details?username=${username}`, {
+      const response = await fetch('http://192.168.1.195:8000/user-details?username=' + username, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -54,20 +49,18 @@ export default function ProfileInfo({ navigation, route }) {
   };
 
   useEffect(() => {
-    const unsubscribeFocus = navigation.addListener('focus', fetchUserInfo);
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchUserInfo();
+    });
 
-    return () => {
-      unsubscribeFocus();
-      setUserInfo(null);  
-    };
+    return unsubscribe;
   }, [navigation]);
 
   if (!userInfo) {
     return <ActivityIndicator />;
   }
 
-  const { firstname, middlename, lastname, birthday, mobilenum, address, pet_knowledge, stable_living, flex_time_sched, environment } = userInfo;
-  const trimmedBirthday = birthday.substring(0, birthday.length - 9);
+  const { firstname, middlename, lastname, username: user, birthday, mobilenum, address, pet_knowledge, stable_living, flex_time_sched, environment} = userInfo;
 
   const calculateWidth = (value) => {
     switch (value) {
@@ -82,125 +75,129 @@ export default function ProfileInfo({ navigation, route }) {
       case 5:
         return '100%';
       default:
-        return '0%';
+        return '0%'; 
     }
   };
-
+  
   return (
-    <View style={styles.screen}>
-      <ScrollView style={styles.container}>
-        <View style={styles.logoutContainer}>
-          <TouchableOpacity onPress={handleLogout}>
-            <Image
-              source={require('../assets/button-logout.png')}
-              resizeMode="cover"
-            />
-          </TouchableOpacity>
+    <ScrollView style={styles.Container}>
+      <View style={styles.logoutContainer}>
+        <TouchableOpacity onPress={handleLogout}>
+          <Image 
+            source={require('../assets/button-logout.png')}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.AccountContainer}>
+        <Image style={styles.imageProfile} source={require('../assets/profile-placeholder.png')} />
+        <View style={styles.AccountInfoContainer}>
+        <Text style={styles.textName}>{`${firstname} ${middlename ? middlename + ' ' : ''}${lastname}`}</Text>
+          <Text style={styles.textUsername}>{username}</Text>
         </View>
-        <View style={styles.accountContainer}>
-          <Image style={styles.imageProfile} source={require('../assets/profile-placeholder.png')} />
-          <View style={styles.accountInfoContainer}>
-            <Text style={styles.textName}>{`${firstname} ${middlename ? middlename + ' ' : ''}${lastname}`}</Text>
-            <Text style={styles.textUsername}>{username}</Text>
-          </View>
-          <View style={styles.profileNavContainer}>
-            <TouchableOpacity><Text style={[styles.textNavigation, styles.textNavigationInactive, styles.textPaws]} onPress={() => navigation.navigate('ProfilePaws', { username })}>Paws</Text></TouchableOpacity>
-            <TouchableOpacity><Text style={[styles.textNavigation, styles.textNavigationActive]} onPress={() => navigation.navigate('ProfileInfo')}>Info</Text></TouchableOpacity>
-          </View>
+        <View style={styles.ProfileNavContainer}>
+          <TouchableOpacity><Text style={[styles.textNavigation, styles.textNavigationInactive, styles.textPaws]} onPress={() => navigation.navigate('ProfilePaws', { username })}>Paws</Text></TouchableOpacity>
+          <TouchableOpacity><Text style={[styles.textNavigation, styles.textNavigationActive]} onPress={() => navigation.navigate('ProfileInfo')}>Info</Text></TouchableOpacity>
         </View>
-        <View style={styles.personalContainer}>
-          <View style={styles.personalContainerContent}>
-            <View style={styles.personalHeadingContainer}>
-              <Text style={[styles.sectionLabel, styles.labelPersonal]}>Personal</Text>
-              <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditProfile', { username })}>
-                <Text style={styles.editButtonText}>Edit</Text>
-              </TouchableOpacity>
+      </View>
+      <View style={styles.PersonalContainer}>
+        <View style={styles.PersonalContainerContent}>
+          <View style={styles.PersonalHeadingContainer}>
+            <Text style={[styles.sectionLabel, styles.labelPersonal]}>Personal</Text>
+            <TouchableOpacity style={styles.EditButton} onPress={() => navigation.navigate('EditProfile', { username })}>
+              <Text style={styles.EditButtonText}>Edit</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.horizontalLine}></View>
+          <View style={styles.infoTable}>
+            <View style={styles.infoColumn1}>
+              <Text style={styles.infoLabel}>Birthday:</Text>
+              <Text style={styles.infoLabel}>Mobile Number:</Text>
+              <Text style={styles.infoLabel}>City:</Text>
             </View>
-            <View style={styles.horizontalLine}></View>
-            <View style={styles.infoTable}>
-              <View style={styles.infoColumn1}>
-                <Text style={styles.infoLabel}>Birthday:</Text>
-                <Text style={styles.infoLabel}>Mobile Number:</Text>
-                <Text style={styles.infoLabel}>City:</Text>
-              </View>
-              <View style={styles.infoColumn2}>
-                <Text style={styles.infoAnswer}>{trimmedBirthday}</Text>
-                <Text style={styles.infoAnswer}>{mobilenum}</Text>
-                <Text style={styles.infoAnswer}>{address}</Text>
-              </View>
+            <View style={styles.infoColumn2}>
+              <Text style={styles.infoAnswer}>{birthday}</Text>
+              <Text style={styles.infoAnswer}>{mobilenum}</Text>
+              <Text style={styles.infoAnswer}>{address}</Text>
             </View>
-            <View style={styles.characteristicsContainer}>
-              <Text style={styles.sectionLabel}>Characteristics</Text>
+          </View>
+        {/* ------------------------------------------------------------------------------------- */}
+        <View style={styles.characteristicsContainer}>
+              <Text  style={styles.sectionLabel}>Characteristics</Text>
               <View style={styles.horizontalLine}></View>
               <View>
                 <Text style={styles.infoLabelChar}>Pet Knowledge:</Text>
                 <View style={styles.outerBar}>
-                  <View style={[styles.innerBar, { width: calculateWidth(pet_knowledge) },]}>
+                  <View style={[styles.innerBar,{ width: calculateWidth(pet_knowledge) },]}>
                   </View>
                 </View>
               </View>
+
+
               <Text style={styles.infoLabelChar}>Stable Living:</Text>
               <View style={styles.outerBar}>
-                <View style={[styles.innerBar, { width: calculateWidth(stable_living) },]}>
+              <View style={[styles.innerBar,{ width: calculateWidth(stable_living) },]}>
+
                 </View>
               </View>
+
               <Text style={styles.infoLabelChar}>Flexible Time Schedule:</Text>
               <View style={styles.outerBar}>
-                <View style={[styles.innerBar, { width: calculateWidth(flex_time_sched) },]}>
+              <View style={[styles.innerBar,{ width: calculateWidth(flex_time_sched) },]}>
+
                 </View>
               </View>
+
               <Text style={styles.infoLabelChar}>Environment:</Text>
               <View style={styles.outerBar}>
-                <View style={[styles.innerBar, { width: calculateWidth(environment) },]}>
+              <View style={[styles.innerBar,{ width: calculateWidth(environment) },]}>
+
                 </View>
+              </View>
+
+              </View>
+        </View>
+      </View> 
+
+      <View style={styles.centeredView}>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text style={styles.modalText}>Are you sure you want to logout?</Text>
+              <View style={styles.buttonRow}>
+              <Pressable
+                  style={[styles.button, styles.buttonConfirm]}
+                  onPress={handleConfirmLogout}>
+                  <Text style={styles.textStyle}>Confirm</Text>
+                </Pressable>
+
+                <Pressable
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={handleCancelLogout}>
+                  <Text style={styles.textStyle}>Cancel</Text>
+                </Pressable>
               </View>
             </View>
           </View>
-        </View>
-        <View style={styles.centeredView}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
-              setModalVisible(!modalVisible);
-            }}>
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>Are you sure you want to logout?</Text>
-                <View style={styles.buttonRow}>
-                  <Pressable
-                    style={[styles.button, styles.buttonConfirm]}
-                    onPress={handleConfirmLogout}>
-                    <Text style={styles.textStyle}>Confirm</Text>
-                  </Pressable>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={handleCancelLogout}>
-                    <Text style={styles.textStyle}>Cancel</Text>
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          </Modal>
-        </View>
-      </ScrollView>
+        </Modal>
+      </View>
 
-      <BottomNavigationBar navigation={navigation} route={route}/>
-    </View>
+    </ScrollView>
+
   );
 }
 
 
 const styles = StyleSheet.create({
-  screen: {
+  Container: {
     height: '100%',
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  container: {
-    height: '79%',
     marginTop: 50,
   },
   logoutContainer: {
@@ -209,7 +206,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     marginTop: 10
   },
-  accountContainer: {
+  AccountContainer: {
     height: '31%',
     flexDirection: 'column',
     alignContent: 'center',
@@ -233,13 +230,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: '#A38277'
   },
-  accountInfoContainer: {
+  AccountInfoContainer: {
     height: '30%',
     flexDirection: 'column',
     alignItems: 'center',
     marginTop: 10,
   },
-  profileNavContainer: {
+  ProfileNavContainer: {
     width: '100%',
     height: '10%',
     flexDirection: 'row',
@@ -254,12 +251,12 @@ const styles = StyleSheet.create({
   },
   textNavigationInactive: {
     color: '#A38277',
-    fontWeight: 'bold',
+    fontWeight: 500,
   },
   textPaws: {
     marginRight: 100,
   },
-  personalContainer: {
+  PersonalContainer: {
     backgroundColor: '#F9EBD8',
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
@@ -268,14 +265,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  personalContainerContent: {
+  PersonalContainerContent: {
     width: '80%',
     height: '100%',
     marginTop: 10,
     flexDirection: 'column',
     paddingBottom: '50%',
   }, 
-  personalHeadingContainer: {
+  PersonalHeadingContainer: {
     flexDirection: 'row',
     marginTop: 25
   },
@@ -296,7 +293,7 @@ const styles = StyleSheet.create({
     borderColor:'#CEBCB6',
     marginBottom:10,
   }, 
-  editButton: {
+  EditButton: {
     width: '20%',
     height: 20,
     alignItems: 'center',
@@ -307,7 +304,7 @@ const styles = StyleSheet.create({
     marginBottom: 0,
     marginTop: 2
   }, 
-  editButtonText: {
+  EditButtonText: {
     color: "#FFFFFF",
     fontSize: 13,
   },
@@ -346,6 +343,12 @@ const styles = StyleSheet.create({
     width: '50%',
     height: '100%',
     borderRadius: 15
+  },
+  logoutContainer: {
+    width: '97%',
+    flex: 1,
+    alignItems: 'flex-end',
+    marginTop: 10
   },
   centeredView: {
     flex: 1,
