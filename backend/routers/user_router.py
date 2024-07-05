@@ -1,10 +1,14 @@
-from fastapi import APIRouter, Depends
-
-from models.user_model import User, LoginModel
-from services.user_service import create_user, get_user
-
 from fastapi import APIRouter, Depends, HTTPException, status
-from services.user_service import verify_user, get_user_details_by_username, update_user_details_by_username
+from models.user_model import User, LoginModel, UserPost
+from controllers.user_controller import fetch_user_posts
+from services.user_service import (
+    create_user,
+    get_user, 
+    verify_user, 
+    get_user_details_by_username, 
+    update_user_details_by_username,
+    create_post
+)
 
 router = APIRouter()
 
@@ -30,3 +34,25 @@ async def get_user_details(username: str):
 @router.put("/update-user-details/{username}")
 async def update_user_details(username: str, new_details: dict):
     return await update_user_details_by_username(username, new_details)
+
+@router.post("/user-posts/{username}")
+async def create_user_post(username: str, post: UserPost):
+    post_content = post.sharedpost
+    post_id = await create_post(username, post_content)
+    
+    if post_id:
+        return {"message": "Post created successfully", "post_id": str(post_id)}
+    else:
+        return {"message": f"Failed to create post for user '{username}'. User not found or other error occurred."}
+
+@router.get("/user-posts/{username}")
+async def get_user_posts(username: str):
+    user_posts = await fetch_user_posts(username)
+    
+    if not user_posts:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No posts found for user '{username}'")
+    
+    return {
+        "username": username,
+        "posts": user_posts
+    }

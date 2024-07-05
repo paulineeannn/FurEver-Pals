@@ -68,3 +68,24 @@ async def update_user_details_by_username(username: str, new_details: dict):
         return {"message": "User details updated successfully"}
     else:
         return {"message": "Failed to update user details"}
+    
+async def create_post(username: str, post_content: str):
+    db = get_database()
+    user = db.users.find_one({"username": username})
+    if not user:
+        return None
+    try:
+        result = db.posts.insert_one({"username": username, "post_content": post_content})
+        return result.inserted_id
+    except Exception as e:
+        print(f"Error creating post: {e}")
+        return None
+    
+async def get_user_posts(username: str):
+    db = get_database()
+    
+    # Fetch posts for the user
+    posts = db.posts.find({"username": username})
+    user_posts = [{"post_id": str(post["_id"]), "post_content": post["post_content"]} for post in posts]
+    
+    return user_posts

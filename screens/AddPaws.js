@@ -7,10 +7,10 @@ import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from 'react-native-dropdown-picker';
 import config from './config.js';
 
-export default function AddPaws() {
-  const navigation = useNavigation();
+export default function AddPaws({ navigation, route }) {
+  // const navigation = useNavigation();
 
-  const route = useRoute();
+  // const route = useRoute();
   const [selectedUri, setSelectedUri] = useState(null);
   const { username } = route.params;
   const [file, setFile] = useState(null); // Stores the selected image URI 

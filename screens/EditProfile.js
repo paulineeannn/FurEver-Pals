@@ -115,7 +115,7 @@ export default function EditProfile() {
     };
 
     try {
-      const response = await fetch(`http://192.168.5.116:8000/update-user-details/${username}`, {
+      const response = await fetch(`http://${config.ipAddress}:8000/update-user-details/${username}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
