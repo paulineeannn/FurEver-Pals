@@ -11,7 +11,6 @@ import SignUp from './screens/SignUp';
 import ProfileInfo from './screens/ProfileInfo';
 import EditProfile from './screens/EditProfile';
 import ProfilePaws from './screens/ProfilePaws';
-import AddPaws from './screens/AddPaws';
 import Dashboard from './screens/Dashboard';
 import ViewAdopt from './screens/ViewAdopt';
 import Community from './screens/Community';
@@ -31,7 +30,6 @@ export default function App() {
         <Stack.Screen name="ProfileInfo" component={ProfileInfo} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="ProfilePaws" component={ProfilePaws} />
-        <Stack.Screen name="AddPaws" component={AddPaws} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="ViewAdopt" component={ViewAdopt} />
         <Stack.Screen name="Community" component={Community} />

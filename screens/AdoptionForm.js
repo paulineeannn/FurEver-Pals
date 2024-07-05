@@ -158,7 +158,7 @@ export default function AdoptionForm() {
         <TextInput style={[styles.textInput, styles.inputParagraph]} multiline={true} numberOfLines={5} value={reasonForAdoption} onChangeText={text => setReasonForAdoption(text)} />
 
         <View style={styles.flexLeftAlign}>
-          <Text style={styles.labelTextInput}>Fur Pic*</Text>
+          <Text style={styles.labelTextInput}>Proof of Identity*</Text>
         </View>
 
         <View style={styles.uploadContainer}>
