@@ -5,59 +5,58 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import config from './config.js';
+import { Buffer } from 'buffer';
 
 export default function AddAdopt() {
   const navigation = useNavigation();
-    
   const route = useRoute();
-  const [selectedUri, setSelectedUri] = useState(null);
   const { username } = route.params;
+  const [selectedUri, setSelectedUri] = useState(null);
   const [file, setFile] = useState(null); // Stores the selected image URI 
   const [error, setError] = useState(null); // Stores any error message 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: 'Female', value: 'Female' },
-    { label: 'Male', value: 'Male' }
+    { label: 'Female', value: 'female' },
+    { label: 'Male', value: 'male' }
   ]);
 
   // Function to pick an image from the device's media library 
- // Function to pick an image from  the device's media library 
- const pickImage = async () => {
-  const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-  
-  console.log('Permission status:', status);
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-  if (status !== 'granted') { // If permission is denied, show an alert 
-    Alert.alert(
-      'Permission Denied',
-      'Sorry, we need camera roll permission to upload images.',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {
-          text: 'Open Settings',
-          onPress: () => {
-            Linking.openSettings();
+    console.log('Permission status:', status);
+
+    if (status !== 'granted') { // If permission is denied, show an alert 
+      Alert.alert(
+        'Permission Denied',
+        'Sorry, we need camera roll permission to upload images.',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
           },
-        },
-      ]
-    );
-  } else { // Launch the image library and get the selected image 
-    const result = await ImagePicker.launchImageLibraryAsync();
+          {
+            text: 'Open Settings',
+            onPress: () => {
+              Linking.openSettings();
+            },
+          },
+        ]
+      );
+    } else { // Launch the image library and get the selected image 
+      const result = await ImagePicker.launchImageLibraryAsync();
 
-    if (!result.cancelled && result.assets && result.assets.length > 0) {
-      const selectedUri = result.assets[0].uri;
-      setSelectedUri(selectedUri);
-      setFile(selectedUri);
-      setError(null);
-      console.log("File updated:", selectedUri);
+      if (!result.cancelled && result.assets && result.assets.length > 0) {
+        const selectedUri = result.assets[0].uri;
+        setSelectedUri(selectedUri);
+        setFile(selectedUri);
+        setError(null);
+        console.log("File updated:", selectedUri);
+      }
     }
-  }
-};
+  };
 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
@@ -66,8 +65,67 @@ export default function AddAdopt() {
   const [successModalVisible, setSuccessModalVisible] = useState(false);
 
   // Modal confirmation functions
-  const confirmSubmission = () => {
-    setSuccessModalVisible(true);
+  const confirmSubmission = async () => {
+    if (!name || !file) {
+      Alert.alert("Error", "Please provide a name and upload a photo.");
+      return;
+    }
+  
+    try {
+      // Convert image to base64
+      const response = await fetch(file);
+      const blob = await response.blob();
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64data = reader.result.split(',')[1]; // Get base64 string
+  
+        const payload = {
+          username,
+          pet_name: name,
+          pet_age: age ? parseInt(age, 10) : null,
+          sex: value,
+          location: complete_address,
+          description,
+          pet_photo: base64data,
+        };
+  
+        try {
+          const response = await fetch(`http://${config.ipAddress}:8000/add-pet`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+          });
+  
+          if (!response.ok) {
+            // Handle specific HTTP errors
+            if (response.status >= 400 && response.status < 500) {
+              const errorData = await response.json();
+              Alert.alert("Client Error", `Failed to post pet: ${JSON.stringify(errorData)}`);
+            } else if (response.status >= 500) {
+              Alert.alert("Server Error", "An error occurred on the server. Please try again later.");
+            } else {
+              Alert.alert("Error", "An unexpected error occurred. Please try again.");
+            }
+            return;
+          }
+  
+          setSuccessModalVisible(true);
+        } catch (error) {
+          // Handle network errors
+          if (error.message.includes('Network request failed')) {
+            Alert.alert("Network Error", "Please check your internet connection and try again.");
+          } else {
+            // Handle any other unexpected errors
+            Alert.alert("Error", `An unexpected error occurred: ${error.message}`);
+          }
+        }
+      };
+      reader.readAsDataURL(blob); // Convert blob to base64
+    } catch (error) {
+      Alert.alert("Error", `An unexpected error occurred: ${error.message}`);
+    }
   };
 
   // Function to handle navigation after success
@@ -75,8 +133,6 @@ export default function AddAdopt() {
     setSuccessModalVisible(false);
     navigation.navigate('Dashboard', { navigation, route });
   };
-
-
 
   return (
     <ScrollView style={styles.Container}>
@@ -111,15 +167,13 @@ export default function AddAdopt() {
 
         <View style={[styles.flexLeftAlign, styles.marginTop]}>
           <Text style={styles.labelTextInput}>Location</Text>
-          {/* <Text style={styles.labelTextFormat}>Format: Unit, Building Name, House Number, Street, Barangay, City, Region, Zip Code</Text> */}
         </View>
         <TextInput style={styles.textInput} value={complete_address} onChangeText={text => setcomplete_address(text)} />
-        
 
         <View style={[styles.flexLeftAlign]}>
           <Text style={styles.labelTextInput}>Description</Text>
         </View>
-        <TextInput style={[styles.textInput, styles.inputParagraph]} multiline={true} numberOfLines={15} /*value={complete_address}*/ onChangeText={text => set_description(text)} />
+        <TextInput style={[styles.textInput, styles.inputParagraph]} multiline={true} numberOfLines={15} onChangeText={text => set_description(text)} />
         
         <View style={styles.flexLeftAlign}>
           <Text style={styles.labelTextInput}>Fur Pic*</Text>
