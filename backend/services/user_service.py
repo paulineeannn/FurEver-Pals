@@ -83,8 +83,7 @@ async def create_post(username: str, post_content: str):
     
 async def get_user_posts(username: str):
     db = get_database()
-    
-    # Fetch posts for the user
+
     posts = db.posts.find({"username": username})
     user_posts = [{"post_id": str(post["_id"]), "post_content": post["post_content"]} for post in posts]
     
