@@ -27,3 +27,6 @@ class User(BaseModel):
 class LoginModel(BaseModel):
     username: str
     password: str
+
+class UserPost(BaseModel):
+    sharedpost: str
