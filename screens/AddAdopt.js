@@ -166,7 +166,7 @@ export default function AddAdopt() {
         </View>
 
         <View style={[styles.flexLeftAlign, styles.marginTop]}>
-          <Text style={styles.labelTextInput}>Location</Text>
+          <Text style={styles.labelTextInput}>Location*</Text>
         </View>
         <TextInput style={styles.textInput} value={complete_address} onChangeText={text => setcomplete_address(text)} />
 
