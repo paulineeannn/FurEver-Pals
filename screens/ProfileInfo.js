@@ -7,7 +7,6 @@ export default function ProfileInfo({ navigation, route }) {
   const { username } = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
-
   const [currentRoute, setCurrentRoute] = useState(route.name);
 
   const handleNavigate = (routeName) => {
@@ -16,7 +15,6 @@ export default function ProfileInfo({ navigation, route }) {
       navigation.navigate(routeName);
     }
   };
-  console.log("Profile Info page opened for", username);
 
   const handleLogout = () => {
     setModalVisible(true);
@@ -105,7 +103,11 @@ export default function ProfileInfo({ navigation, route }) {
             <Text style={styles.textUsername}>{username}</Text>
           </View>
           <View style={styles.profileNavContainer}>
-            <TouchableOpacity><Text style={[styles.textNavigation, styles.textNavigationInactive, styles.textPaws]} onPress={() => navigation.navigate('ProfilePaws', { username })}>Paws</Text></TouchableOpacity>
+          <TouchableOpacity>
+              <Text style={[styles.textNavigation, styles.textNavigationInactive, styles.textPaws]} onPress={() => navigation.navigate('ProfilePaws', { username: route.params.username })}>
+                Paws
+              </Text>
+            </TouchableOpacity>
             <TouchableOpacity><Text style={[styles.textNavigation, styles.textNavigationActive]} onPress={() => navigation.navigate('ProfileInfo')}>Info</Text></TouchableOpacity>
           </View>
         </View>
