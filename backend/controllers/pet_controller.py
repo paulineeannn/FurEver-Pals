@@ -1,6 +1,8 @@
 from fastapi import HTTPException, status
+import logging
+from typing import List
 
-from services.pet_service import create_pet, get_pet_by_id, get_pets_by_username, user_exists
+from services.pet_service import create_pet, get_pet_by_id, get_pets_by_username, user_exists, get_all_pets as get_all_pets_service
 from models.pet_model import Pet
 
 async def add_pet(pet: Pet):
@@ -21,3 +23,11 @@ async def get_pets(username: str):
         return pets
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No pets found for this user")
+
+async def get_all_pets() -> List[dict]:
+    pets = await get_all_pets_service()
+    if pets:
+        formatted_pets = [{"pet_name": pet["pet_name"], "location": pet["location"], "pet_photo": pet["pet_photo"]} for pet in pets]
+        return formatted_pets
+    else:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No pets found")

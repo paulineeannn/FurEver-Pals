@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
 
 from models.pet_model import Pet
-from services.pet_service import create_pet, get_pet_by_id, get_pets_by_username
-from controllers.pet_controller import add_pet, get_pet, get_pets
+from controllers.pet_controller import add_pet, get_pet, get_pets, get_all_pets
 
 router = APIRouter()
 
@@ -18,3 +17,7 @@ async def get_pet_endpoint(pet_id: str):
 @router.get("/user-pets/{username}", response_model=List[Pet])
 async def get_pets_endpoint(username: str):
     return await get_pets(username)
+
+@router.get("/all-pets", response_model=List[dict])
+async def get_all_pets_endpoint():
+    return await get_all_pets()
