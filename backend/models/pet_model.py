@@ -15,3 +15,20 @@ class Pet(BaseModel):
         if not v:
             raise ValueError("Pet photo must be provided")
         return v
+    
+class AdoptionApplication(BaseModel):
+    username: str = Field(..., min_length=1, max_length=100)
+    name: str = Field(..., min_length=1, max_length=100)
+    address: Optional[str] = Field(None)
+    occupation: Optional[str] = Field(None)
+    responsible_for_pet_care: Optional[str] = Field(None)
+    plan_to_care_for_pet: Optional[str] = Field(None)
+    clinic_name: Optional[str] = Field(None)
+    reason_for_adopting: Optional[str] = Field(None)
+    proof_of_identity_photo: bytes = Field(...)
+
+    @validator('proof_of_identity_photo')
+    def proof_of_identity_photo_must_be_provided(cls, v):
+        if not v:
+            raise ValueError("Proof of identity photo must be provided")
+        return v

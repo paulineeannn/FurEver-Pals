@@ -28,3 +28,8 @@ async def get_all_pets():
     db = get_database()
     pets = db.pets.find({}, {"pet_name": 1, "location": 1, "pet_photo": 1})
     return list(pets)
+
+async def create_adoption_application(adoption_app):
+    db = get_database()
+    db.adoption_applications.insert_one(adoption_app.dict(exclude_unset=True))
+    return adoption_app
