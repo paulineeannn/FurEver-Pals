@@ -81,10 +81,8 @@ async def create_post(username: str, post_content: str):
         print(f"Error creating post: {e}")
         return None
     
-async def get_user_posts(username: str):
+async def get_all_posts():
     db = get_database()
-
-    posts = db.posts.find({"username": username})
-    user_posts = [{"post_id": str(post["_id"]), "post_content": post["post_content"]} for post in posts]
-    
-    return user_posts
+    posts = db.posts.find()
+    all_posts = [{"username": post["username"], "post_id": str(post["_id"]), "post_content": post["post_content"]} for post in posts]
+    return all_posts

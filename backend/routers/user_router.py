@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from models.user_model import User, LoginModel, UserPost
-from controllers.user_controller import fetch_user_posts
+from controllers.user_controller import fetch_all_posts
 from services.user_service import (
     create_user,
     get_user, 
@@ -45,14 +45,11 @@ async def create_user_post(username: str, post: UserPost):
     else:
         return {"message": f"Failed to create post for user '{username}'. User not found or other error occurred."}
 
-@router.get("/user-posts/{username}")
-async def get_user_posts(username: str):
-    user_posts = await fetch_user_posts(username)
+@router.get("/all-user-posts")
+async def get_all_user_posts():
+    all_posts = await fetch_all_posts()
     
-    if not user_posts:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No posts found for user '{username}'")
+    if not all_posts:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No posts found")
     
-    return {
-        "username": username,
-        "posts": user_posts
-    }
+    return {"posts": all_posts}
