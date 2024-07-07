@@ -1,40 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TextInput, Modal, Pressable } from 'react-native';
 import BottomNavigationBar from './BottomNavigationBar';
+import config from './config.js';
 
 export default function Community({ navigation, route }) {
   const { username } = route.params;
 
-  const initialPosts = [
-    {
-      name: 'Cess Villas',
-      tip: 'Hindi na kailangang stressful ang bath time! Gumamit ng maliit na lalagyan na may maligamgam na tubig, iwasan ang ulo. Shampoo na pang-pusa lang gamitin, tapos banlaw nang mabuti at patuyuin ng malambot na tuwalya. Purihin mo siya pagkatapos para maging positibo ang experience niya!'
-    },
-    {
-      name: 'Yohan Kyle',
-      tip: 'Kapag mainit ang panahon, tiyaking mayroon silang paw-spray! Isang pindot lang, instant presko! Parang A/C, pero para sa mga pusa! Para naman mabawasan ang konsumo nila sa kuryente, wala naman silang pambayad!'
-    },
-    {
-      name: 'Liam Cruz',
-      tip: 'Feeling boss na ba ang aso mo? Training time! Magsimula sa simpleng utos gaya ng "upo" at "tayo." Gumamit ka ng treats! Hikayatin mo siyang sundin ang mga ito, at apat pare-pareho tayo sa mga utos at maging mapagpasensya.'
-    },
-    {
-      name: 'Jessie Mae',
-      tip: 'Para tipid sa pag-aalaga ng pusa, gamitin ang lumang kahon bilang spaceship nila! Malilibang sila nang libre at ikaw naman ay makakatipid sa pambili ng mga mamahaling laruan!'
-    },
-    {
-      name: 'Callie Pot',
-      tip: 'Parang wala nang ibang ginawa si Meowsalot kundi matulog at magpa-cute? Kailangan niya ng laro para maging healthy! Maglaan ka ng oras araw-araw para sa playtime. Baka naman after maglaro, pwede na siyang tumulong sa mga gawaing bahay, \'di ba? (Char lang!)'
-    }
-  ];
-
   const [SharedTips, setSharedTips] = useState('');
-  const [posts, setPosts] = useState(initialPosts);
+  const [posts, setPosts] = useState([]); // Initialize with an empty array
+
   const [successModalVisible, setSuccessModalVisible] = useState(false);
 
   // Modal confirmation functions
-  const confirmSubmission = () => {
-    setSuccessModalVisible(true);
+  const confirmSubmission = async () => {
+    try {
+      const response = await fetch(`http://${config.ipAddress}:8000/user-posts/${username}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ sharedpost: SharedTips }),
+      });
+  
+      if (response.ok) {
+        setSuccessModalVisible(true);
+      } else {
+        console.error('Failed to post tip:', response.status);
+        // Handle error as needed
+      }
+    } catch (error) {
+      console.error('Error posting tip:', error);
+      // Handle error as needed
+    }
   };
 
   // Function to handle navigation after success
