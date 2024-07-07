@@ -66,7 +66,7 @@ export default function ProfileInfo({ navigation, route }) {
   }
 
   const { firstname, middlename, lastname, birthday, mobilenum, address, pet_knowledge, stable_living, flex_time_sched, environment } = userInfo;
-  const trimmedBirthday = birthday.substring(0, birthday.length - 9);
+  const trimmedBirthday = birthday.substring(0, 10);
 
   const calculateWidth = (value) => {
     switch (value) {
