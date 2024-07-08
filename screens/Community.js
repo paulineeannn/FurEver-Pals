@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TextInput, Modal, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TextInput, Modal, Pressable, RefreshControl } from 'react-native';
 import BottomNavigationBar from './BottomNavigationBar';
 import config from './config.js';
 
@@ -7,11 +7,10 @@ export default function Community({ navigation, route }) {
   const { username } = route.params;
 
   const [SharedTips, setSharedTips] = useState('');
-  const [posts, setPosts] = useState([]); // Initialize with an empty array
-
+  const [posts, setPosts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
   const [successModalVisible, setSuccessModalVisible] = useState(false);
 
-  // Modal confirmation functions
   const confirmSubmission = async () => {
     try {
       const response = await fetch(`http://${config.ipAddress}:8000/user-posts/${username}`, {
@@ -24,29 +23,45 @@ export default function Community({ navigation, route }) {
   
       if (response.ok) {
         setSuccessModalVisible(true);
+        fetchPosts(); // Refresh posts after successful submission
       } else {
         console.error('Failed to post tip:', response.status);
-        // Handle error as needed
       }
     } catch (error) {
       console.error('Error posting tip:', error);
-      // Handle error as needed
     }
   };
 
-  // Function to handle navigation after success
-  const handleTipPosting = () => {
-    setSuccessModalVisible(false);
-    navigation.navigate('Community', { navigation, route });
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch(`http://${config.ipAddress}:8000/all-user-posts`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch posts');
+      }
+      const data = await response.json();
+      if (Array.isArray(data.posts)) {
+        setPosts(data.posts);
+      } else {
+        setPosts([]);
+      }
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      setPosts([]); // Set posts to an empty array in case of error
+    }
   };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    fetchPosts().then(() => setRefreshing(false));
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const handleNavigate = (routeName) => {
     navigation.navigate(routeName);
   };
-
-  useEffect(() => {
-    console.log("Welcome to Community Page, " + username);
-  }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
     <View style={styles.screen}>
@@ -55,9 +70,18 @@ export default function Community({ navigation, route }) {
         <Text style={styles.subheadingText}>Share and Discover Tips from Pet Owners</Text>
       </View>
 
-      <ScrollView style={styles.container}>
-
-        <TextInput style={[styles.textInput, styles.inputParagraph]} placeholder='Got a FurEver Friend Hack? Share it Here!' multiline={true} numberOfLines={5} value={SharedTips} onChangeText={text => setSharedTips(text)} />
+      <ScrollView
+        style={styles.container}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      >
+        <TextInput
+          style={[styles.textInput, styles.inputParagraph]}
+          placeholder='Got a FurEver Friend Hack? Share it Here!'
+          multiline={true}
+          numberOfLines={5}
+          value={SharedTips}
+          onChangeText={text => setSharedTips(text)}
+        />
 
         <View style={styles.containerShareButton}>
           <Pressable style={styles.shareButton} onPress={confirmSubmission}>
@@ -65,19 +89,17 @@ export default function Community({ navigation, route }) {
           </Pressable>
         </View>
 
-
         {posts.map((post, index) => (
           <View style={styles.containerSharedTip} key={index}>
             <View style={styles.postAccountDetails}>
               <Image style={styles.postImage} source={require('../assets/profile-placeholder.png')} />
-              <Text style={styles.postName}>{post.name}</Text>
+              <Text style={styles.postName}>{post.username}</Text>
             </View>
-            <Text style={styles.postTip}>{post.tip}</Text>
+            <Text style={styles.postTip}>{post.post_content}</Text>
           </View>
         ))}
       </ScrollView>
 
-      {/* Success Modal */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -89,7 +111,10 @@ export default function Community({ navigation, route }) {
             <Text style={styles.modalText}>Tip posted successfully!</Text>
             <Pressable
               style={[styles.button, styles.buttonConfirm]}
-              onPress={handleTipPosting}
+              onPress={() => {
+                setSuccessModalVisible(false);
+                fetchPosts();
+              }}
             >
               <Text style={styles.textStyle}>Confirm</Text>
             </Pressable>
