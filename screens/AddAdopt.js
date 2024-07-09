@@ -131,7 +131,7 @@ export default function AddAdopt() {
   // Function to handle navigation after success
   const handleAddPaws = () => {
     setSuccessModalVisible(false);
-    navigation.navigate('Dashboard', { navigation, route });
+    navigation.navigate('Dashboard', { ...route.params });
   };
 
   return (
