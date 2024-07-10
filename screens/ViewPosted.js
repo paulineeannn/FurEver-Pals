@@ -2,15 +2,15 @@ import React from 'react';
 import { ScrollView, Text, StyleSheet, View, Image, Pressable, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-export default function ViewAdopt({ route }) {
+export default function ViewPosted({ route }) {
   const { name, sex, location, age, description, image } = route.params;
   const navigation = useNavigation();
   const { username } = route.params;
-  console.log(image);
+  console.log(age);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.containerImage}>
-        <Image style={styles.petImage} source={{ uri: image }} resizeMode="cover" />
+      <Image style={styles.petImage} source={{ uri: image }} resizeMode="cover" />
       </View>
       
       <View style={styles.content}>
@@ -34,13 +34,6 @@ export default function ViewAdopt({ route }) {
           </View>
 
           <Text style={[styles.value, styles.marginLeft]}>{description}</Text>
-
-          <View style={styles.center}>
-            <TouchableOpacity style={styles.buttonAdopt} onPress={() => navigation.navigate('AdoptionForm', route)}>
-                <Text style={styles.buttonText}>Adopt Me</Text>
-              </TouchableOpacity>
-          </View>
-
           </View>
         </View>
       

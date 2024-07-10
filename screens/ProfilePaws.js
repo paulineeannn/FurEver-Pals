@@ -130,9 +130,7 @@ export default function ProfilePaws({ navigation, route }) {
                       key={index}
                       style={styles.containerPetGallery}
                       onPress={() =>
-                        navigation.navigate('ViewAdopt', {
-                          navigation: navigation,
-                          route: route,
+                        navigation.navigate('ViewPosted', {
                           name: pet.pet_name,
                           sex: pet.sex,
                           location: pet.location,
