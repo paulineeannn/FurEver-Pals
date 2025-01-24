@@ -16,7 +16,6 @@ import ViewAdopt from './screens/ViewAdopt';
 import Community from './screens/Community';
 import AddAdopt from './screens/AddAdopt';
 import AdoptionForm from './screens/AdoptionForm';
-import ViewPosted from './screens/ViewPosted';
 import BottomNavigationBar from './screens/BottomNavigationBar';
 
 const Stack = createNativeStackNavigator();
@@ -36,7 +35,6 @@ export default function App() {
         <Stack.Screen name="Community" component={Community} />
         <Stack.Screen name="AddAdopt" component={AddAdopt} />
         <Stack.Screen name="AdoptionForm" component={AdoptionForm} />
-        <Stack.Screen name="ViewPosted" component={ViewPosted} />
         <Stack.Screen name="BottomNavigationBar" component={BottomNavigationBar} />
       </Stack.Navigator>
     </NavigationContainer>
