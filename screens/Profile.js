@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../styles/ProfileInfoStyles';
+import styles from '../styles/ProfileStyles';
 
 import { Text, View, Image, TouchableOpacity, Modal, Pressable, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import BottomNavigationBar from './BottomNavigationBar'; 

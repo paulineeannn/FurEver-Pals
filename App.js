@@ -1,16 +1,11 @@
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, ImageBackground, Pressable, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
-import ProfileInfo from './screens/ProfileInfo';
+import Profile from './screens/Profile';
 import EditProfile from './screens/EditProfile';
-import ProfilePaws from './screens/ProfilePaws';
 import Dashboard from './screens/Dashboard';
 import ViewAdopt from './screens/ViewAdopt';
 import Community from './screens/Community';
@@ -27,9 +22,8 @@ export default function App() {
       screenOptions={{headerShown: false}}>
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="ProfileInfo" component={ProfileInfo} />
+        <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="ProfilePaws" component={ProfilePaws} />
         <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="ViewAdopt" component={ViewAdopt} />
         <Stack.Screen name="Community" component={Community} />
