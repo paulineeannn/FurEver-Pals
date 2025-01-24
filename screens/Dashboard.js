@@ -41,7 +41,9 @@ export default function Dashboard({ navigation, route }) {
   return (
     <View style={styles.screen}>
       <View style={styles.header}>
-        <TextInput style={styles.textInput} placeholder="Search"  />
+        {/* <TextInput style={styles.textInput} placeholder="Search"  /> */}
+        <View style={styles.blocker}></View>
+        <Text style={styles.headerText}>Pets for Adoption</Text>
         <TouchableOpacity style={styles.buttonAddAdopt} onPress={() => navigation.navigate('AddAdopt', { username })}>
           <Text style={styles.textAdd}>+</Text>
         </TouchableOpacity>
@@ -56,15 +58,18 @@ export default function Dashboard({ navigation, route }) {
               <TouchableOpacity
                 key={index}
                 style={styles.containerPetGallery}
-                onPress={() =>
+                onPress={() => {
                   navigation.navigate('ViewAdopt', {
                     navigation: navigation,
                     route: route,
                     name: pet.pet_name,
+                    age: pet.pet_age,
+                    sex: pet.sex,
                     location: pet.location,
+                    description: pet.description,
                     image: `data:image/jpeg;base64,${pet.pet_photo}`
-                  })
-                }
+                  });
+                }}
               >
                 <Image style={styles.galleryImg} source={{ uri: `data:image/jpeg;base64,${pet.pet_photo}` }} resizeMode="cover" />
                 <View style={styles.galleryLine}>
@@ -113,6 +118,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
     marginLeft: 20
+  },
+  blocker: {
+    width: '12%',
   },
   buttonAddAdopt: {
     marginTop: 40,
@@ -176,5 +184,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     marginTop: 2
-  }
+  },
+  headerText: {
+    marginTop: 45,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 25,
+    width:'70%',
+    textAlign:'center',
+
+  },
 });

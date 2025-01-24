@@ -3,10 +3,10 @@ import { ScrollView, Text, StyleSheet, View, Image, Pressable, TouchableOpacity 
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function ViewAdopt({ route }) {
-  const { name, sex, location, age, description, image } = route.params;
+  const { name, age, sex, location, description, image } = route.params;
   const navigation = useNavigation();
   const { username } = route.params;
-  console.log(image);
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.containerImage}>
