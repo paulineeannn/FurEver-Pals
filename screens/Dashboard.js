@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, TouchableOpacity, TextInput, RefreshControl } from 'react-native';
+import styles from '../styles/DashboardStyles';
+
+import { Text, View, Image, ScrollView, TouchableOpacity, TextInput, RefreshControl } from 'react-native';
 import BottomNavigationBar from './BottomNavigationBar';
 import config from './config.js';
 
@@ -8,6 +10,7 @@ export default function Dashboard({ navigation, route }) {
   const [currentRoute, setCurrentRoute] = useState(route.name);
   const [pets, setPets] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+  const [isOdd, setIsOdd] = useState(true);
 
   useEffect(() => {
     fetchPets();
@@ -20,6 +23,7 @@ export default function Dashboard({ navigation, route }) {
         throw new Error('Failed to fetch pets');
       }
       const data = await response.json();
+      setIsOdd(data.length % 2 !== 0);
       setPets(data);
     } catch (error) {
       console.error('Error fetching pets:', error);
@@ -57,11 +61,13 @@ export default function Dashboard({ navigation, route }) {
             {pets.map((pet, index) => (
               <TouchableOpacity
                 key={index}
-                style={styles.containerPetGallery}
+                style={[styles.containerPetGallery, isOdd ? styles.LeftAligned : styles.Centered]}
                 onPress={() => {
                   navigation.navigate('ViewAdopt', {
                     navigation: navigation,
                     route: route,
+                    current_username: username,
+                    owner_username: pet.username,
                     name: pet.pet_name,
                     age: pet.pet_age,
                     sex: pet.sex,
@@ -90,108 +96,3 @@ export default function Dashboard({ navigation, route }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: '#F9EBD8',
-  },
-  container: {
-    flex: 1,
-    marginTop: 0,
-    height: '79%',
-  },
-  header: {
-    backgroundColor: '#A38277',
-    justifyContent: 'center',
-    display: 'flex',
-    flexDirection: 'row'
-  },
-  textInput: {
-    fontSize: 18,
-    padding: 10,
-    flex: 1,
-    color: '#6A2D2B',
-    borderRadius: 17,
-    backgroundColor: "#FFFFFF",
-    width: '60%',
-    marginTop: 40,
-    marginBottom: 20,
-    marginLeft: 20
-  },
-  blocker: {
-    width: '12%',
-  },
-  buttonAddAdopt: {
-    marginTop: 40,
-    marginBottom: 20,
-    backgroundColor: '#FBAA5A',
-    borderRadius: 12,
-    width: '12%',
-    marginRight: 17,
-    marginLeft: 6
-  },
-  textAdd: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    color: '#6A2D2B',
-    textAlign: 'center'
-  },
-  contentGallery: {
-    marginBottom: '10%'
-  },
-  containerGallery: {
-    width: '100%',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    marginTop: 12
-  },
-  containerPetGallery: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 15,
-    margin: 7,
-  },
-  galleryImg: {
-    width: 170, 
-    height: 170, 
-    aspectRatio: 1,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-  },
-  galleryLine: {
-    flexDirection: 'column',
-    margin: 4,
-    marginBottom: 14
-  },  
-  petName: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    flex: 1,
-    justifyContent: 'flex-start',
-    marginBottom: 3,
-    color: '#6A2D2B',
-    marginLeft: 5
-  },
-  iconImage: {
-    width: 14,
-    height: 14,
-    marginRight: 3,
-    marginLeft: 5,
-  },
-  dashboardInfo: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginTop: 2
-  },
-  headerText: {
-    marginTop: 45,
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 25,
-    width:'70%',
-    textAlign:'center',
-
-  },
-});
