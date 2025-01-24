@@ -36,9 +36,9 @@ async def get_pets(username: str):
 
 async def get_all_pets() -> List[dict]:
     db = get_database()
-    pets = db.pets.find({}, {"pet_name": 1, "pet_age": 1, "sex": 1, "location": 1, "description": 1, "pet_photo": 1})
+    pets = db.pets.find({}, {"pet_name": 1, "pet_age": 1, "sex": 1, "location": 1, "description": 1, "username": 1, "pet_photo": 1})
     if pets:
-        formatted_pets = [{"pet_name": pet["pet_name"], "pet_age": pet["pet_age"], "sex": pet["sex"], "location": pet["location"], "description": pet["description"], "pet_photo": pet["pet_photo"]} for pet in pets]
+        formatted_pets = [{"pet_name": pet["pet_name"], "pet_age": pet["pet_age"], "sex": pet["sex"], "location": pet["location"], "description": pet["description"], "username": pet["username"], "pet_photo": pet["pet_photo"]} for pet in pets]
         return formatted_pets
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No pets found")
