@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, TouchableOpacity, Alert, Linking, ActivityIndicator } from 'react-native';
+import styles from '../styles/EditProfileStyles';
+
+import { Text, View, Image, TextInput, Pressable, ScrollView, TouchableOpacity, Alert, Linking, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
@@ -31,7 +32,7 @@ export default function EditProfile() {
   // Function to fetch user information from the backend
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://${config.ipAddress}:8000/user-details?username=${username}`);
+      const response = await fetch(`http://${config.ipAddress}:8000/user-details/${username}`);
       if (response.ok) {
         const data = await response.json();
         if (data) {
@@ -283,119 +284,3 @@ export default function EditProfile() {
   );
 }
 
-const styles = StyleSheet.create({
-  Container: {
-    backgroundColor: '#725144',
-  },
-  uploadContainer: {
-    position: 'absolute',
-    top: 60,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  buttonUploadPicture: {
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imgProfile: {
-    width: 160,
-    height: 160,
-    borderRadius: 100,
-    aspectRatio: 1,
-    marginTop: 80,
-  },
-  formContainer: {
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 40,
-    marginTop: 150,
-    marginBottom: 0,
-    backgroundColor: '#FFFFFF',
-    width: '100%',
-    height: '100%',
-  },
-  formContainerContent: {
-    marginTop: 70,
-    marginBottom: 0,
-    height: '100%',
-    flex: 1,
-    alignItems: 'center',
-    paddingBottom: 80,
-  },
-  formHeadingContainer: {
-    alignItems: 'flex-start',
-    width: '85%',
-    marginTop: '7%',
-  },
-  formHeading: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#725144',
-  },
-  horizontalLine: {
-    borderWidth: 0.5,
-    width: '100%',
-    borderColor: '#D1D1D1',
-    marginTop: 8,
-    marginBottom: 15,
-  },
-  flexLeftAlign: {
-    width: '83%',
-  },
-  labelTextInput: {
-    fontSize: 13,
-    marginBottom: 5,
-    textAlign: 'left',
-    color: '#7F7F7F',
-  },
-  textInput: {
-    fontSize: 13,
-    padding: 10,
-    width: '84%',
-    backgroundColor: '#E8DFDD',
-    borderRadius: 10,
-    marginBottom: 15,
-  },
-  formTwoColumns: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-  },
-  flexColumn: {
-    flexDirection: 'column',
-    width: 160,
-  },
-  marginRight: {
-    marginRight: 10,
-  },
-  textInputHalf: {
-    fontSize: 13,
-    padding: 10,
-    width: '100%',
-    backgroundColor: '#E8DFDD',
-    borderRadius: 10,
-    marginBottom: 15,
-  },
-  Slider: {
-    width: '85%',
-    marginBottom: 25,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '65%',
-    marginTop: 15,
-    marginBottom: 20,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    backgroundColor: '#725144',
-  },
-  buttonText: {
-    fontSize: 14,
-    color: 'white',
-  },
-});

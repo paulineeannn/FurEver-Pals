@@ -9,7 +9,7 @@ const BottomNavigationBar = ({ navigation, route }) => {
   };
 
   return (
-    <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10, backgroundColor: '#A38277' }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'space-around', padding: 10, backgroundColor: '#A38277', paddingVertical: 15, paddingBottom: 20}}>
       
       <TouchableOpacity
         onPress={() => handleNavigate('Dashboard')}
@@ -19,7 +19,7 @@ const BottomNavigationBar = ({ navigation, route }) => {
         }}
       >
         <Image source={require('../assets/icon_dashboard.png')} style={{ tintColor: '#FFFFFF' }} />
-        <Text style={{ color: '#FFFFFF', fontSize: 11 }}>Dashboard</Text>
+        {/* <Text style={{ color: '#FFFFFF', fontSize: 11 }}>Dashboard</Text> */}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -30,7 +30,7 @@ const BottomNavigationBar = ({ navigation, route }) => {
         }}
       >
         <Image source={require('../assets/icon_forum.png')} style={{ tintColor: '#FFFFFF' }} />
-        <Text style={{ color: '#FFFFFF', fontSize: 11 }}>Community</Text>
+        {/* <Text style={{ color: '#FFFFFF', fontSize: 11 }}>Community</Text> */}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -41,7 +41,7 @@ const BottomNavigationBar = ({ navigation, route }) => {
         }}
       >
         <Image source={require('../assets/icon_profile.png')} style={{ tintColor: '#FFFFFF' }} />
-        <Text style={{ color: '#FFFFFF', fontSize: 11 }}>Profile</Text>
+        {/* <Text style={{ color: '#FFFFFF', fontSize: 11 }}>Profile</Text> */}
       </TouchableOpacity>
     </View>
   );

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, Pressable, navigation, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
+import styles from '../styles/SignUpStyles';
+
+import { Text, View, Image, TextInput, Pressable, navigation, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
@@ -18,10 +19,12 @@ export default function SignUp() {
     ? require('../assets/icon-show.png') 
     : require('../assets/icon-hide.png'); 
 
-
+  const handleCloseError = () => {
+    setErrorMessage(null); // Hide the error message when Close is clicked
+  };
 
   const [file, setFile] = useState(null);   // Stores the selected image URI 
-  const [error, setError] = useState(null); // Stores any error message 
+  const [errorMessage, setErrorMessage] = useState(null); // Stores any error message 
 
   // Function to pick an image from  the device's media library 
   const pickImage = async () => {
@@ -52,7 +55,7 @@ export default function SignUp() {
       if (!result.cancelled && result.assets && result.assets.length > 0) {
         const selectedUri = result.assets[0].uri;
         setFile(selectedUri);
-        setError(null);
+        setErrorMessage(null);
         console.log("File updated:", selectedUri);
       }
     }
@@ -105,22 +108,44 @@ export default function SignUp() {
         navigation.navigate('SignIn');
         console.log("successful");
       } else {
-        const errorData = await response.json(); // Try to get error details from response
-        Alert.alert(
-          'Error',
-          'Registration failed: ' + (errorData.detail || 'An unknown error occurred')
-        );
-        console.error("Registration failed:", errorData || response.statusText); // Log more detailed error
+        const errorData = await response.json();
+        if (errorData && errorData.detail) {
+          // Extract the error message from the response
+          const message = errorData.detail.map((err) => err.msg).join(', ');
+          setErrorMessage(message); // Store the error message
+        } else {
+          setErrorMessage('An unknown error occurred.');
+        }
+        setErrorMessage('Registration failed:', errorData);
+        console.info("Aaaaaaaaaaaaaa", errorMessage);
+        console.error("Registration failed" || response.statusText);
+        // console.error("Registration failed:", errorData || response.statusText); // Log more detailed error
       }
     } catch (error) {
       console.error('Error:', error); // Log the original error
-      Alert.alert('Error', 'An error occurred during registration');
+      // Alert.alert('Error', 'An error occurred during registration');
       console.log("Network or server error:", error); // Log network/server-related error
+      setErrorMessage('Network error or server is down.');
     }
   };
 
   return (
     <ScrollView style={styles.Container}>
+      {errorMessage ? (
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>{errorMessage}</Text>
+            <View style={styles.buttonRow}>
+              <Pressable
+                style={styles.buttonClose}
+                onPress={handleCloseError}>
+                <Text style={styles.textStyle}>Close</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      ) : null}
+
       <View style={styles.uploadContainer}>
         <TouchableOpacity style={styles.buttonUploadPicture} onPress={pickImage}>
           {file ? (
@@ -285,153 +310,7 @@ export default function SignUp() {
 
         </View>
       </View>
+
     </ScrollView>
   );
 }
-
-
-const styles = StyleSheet.create({
-  Container: {
-    backgroundColor: '#725144',
-  },
-  uploadContainer: {
-    position: 'absolute',
-    top: 60,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  buttonUploadPicture: {
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center', 
-  },
-  imgProfile: {
-    width: 160, 
-    height: 160, 
-    borderRadius: 100,
-    aspectRatio: 1,
-    marginTop: 80,
-  },
-  formContainer: {
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 40,
-    marginTop: 150,
-    marginBottom: 0,
-    backgroundColor: '#FFFFFF',
-    width: '100%',
-    height: '100%',
-  },
-
-  formContainerContent: {
-    marginTop: 70,
-    marginBottom: 0,
-    height: '100%',
-    flex: 1,
-    alignItems: 'center',
-    paddingBottom: 80,
-  },
-  formHeadingContainer: {
-    alignItems: 'flex-start',
-    width: '85%',
-    marginTop: '7%',
-
-  },
-  formHeading: {
-    fontSize: 20,
-    color: '#725144',
-    fontWeight: 'bold',
-  },
-  horizontalLine: {
-    borderWidth: 0.5,
-    width: '100%',
-    borderColor:'#D1D1D1',
-    marginTop: 8,
-    marginBottom:15,
-  }, 
-  flexLeftAlign : {
-    width: '83%',
-  },
-  labelTextInput: {
-    fontSize: 13,
-    marginBottom: 5,
-    textAlign: 'left',
-    color: '#7F7F7F',
-  },
-  textInput: {
-    fontSize: 13,
-    padding: 10,
-    width: '84%',
-    backgroundColor: '#E8DFDD',
-    borderRadius: 10,
-    marginBottom: 15,
-  },
-  formTwoColumns: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-  },
-  flexColumn: {
-    flexDirection: 'column',
-    width: 160,
-  },
-  marginRight: {
-    marginRight: 10,
-  },
-
-  textInputHalf: {
-    fontSize: 13,
-    padding: 10,
-    width: '100%',
-    backgroundColor: '#E8DFDD',
-    borderRadius: 10,
-    marginBottom: 15,
-  },
-  Slider: {
-    width:'85%',
-    marginBottom: 25,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '90%',
-    marginTop: 15,
-    marginBottom: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    backgroundColor: '#725144',
-  },
-  buttonText: {
-    fontSize: 14,
-    color: 'white',
-  }, 
-  
-  containerOneLineText: {
-    flexDirection: 'row',
-    marginBottom: 40,
-  },
-  textPlain: {
-    // fontFamily: 'Inter-Regular',
-    fontSize: 13,
-    color: '#7F7F7F',
-  },
-  logInText: {
-
-    fontSize: 13,
-    color: '#725144',
-  },
-  CenterContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 300
-  },
-  iconPassword: {
-    height: 20,
-    position: 'absolute',
-    bottom: 23,
-    left: 125
-  },
-});

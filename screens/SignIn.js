@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import styles from '../styles/SignInStyles';
+
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, TextInput, ImageBackground, Pressable, TouchableOpacity, navigation,  Alert, Linking} from 'react-native';
+import { Text, View, Image, TextInput, ImageBackground, Pressable, TouchableOpacity, navigation,  Alert, Linking} from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import config from './config.js';
 
@@ -104,104 +106,3 @@ export default function SignIn() {
       </ImageBackground>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  backgroundImage: {
-    flex: 1, // Makes the image cover the whole screen
-  },
-  logo: {
-    width: 200,
-    height: 200,
-    marginTop: '20%',
-    marginBottom: '15%',
-  },
-  formContainer: {
-    marginBottom: 0,
-    backgroundColor: '#FFFFFF',
-    flex: 1,
-    alignItems: 'center',
-    width: '100%',
-    borderTopRightRadius: 40,
-    borderTopLeftRadius: 40,
-
-  },
-  headingForm: {
-    marginTop: '10%',
-    fontSize: 25,
-    marginBottom: 5,
-    color: '#662B2B',
-    fontWeight: 'bold'
-  },
-  subheadingForm: {
-    fontSize: 15,
-    marginBottom: 50,
-    color: '#7F7F7F',
-  },
-  labelText: {
-    fontSize: 13,
-    marginBottom: 5,
-    textAlign: 'left',
-    color: '#7F7F7F',
-  },
-  flexLeftAlign : {
-    width: '75%',
-  },
-  textInput: {
-    fontSize: 15,
-    padding: 12,
-    width: '75%',
-    backgroundColor: '#E8DFDD',
-    borderRadius: 15,
-    marginBottom: 15,
-  },
-  textInputPassword: {
-    fontSize: 15,
-    padding: 12,
-    width: '75%',
-    backgroundColor: '#E8DFDD',
-    borderRadius: 15,
-    marginBottom: 15,
-    marginBottom: 50,
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '65%',
-    marginBottom: 10,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    backgroundColor: '#725144',
-  },
-  buttonText: {
-    fontSize: 14,
-    color: 'white',
-  },
-  containerOneLineText: {
-    flexDirection: 'row',
-    marginBottom: 40,
-  },
-  textPlain: {
-    fontSize: 13,
-    color: '#7F7F7F',
-  },
-  createAccountText: {
-    fontSize: 13,
-    color: '#725144',
-  
-  },
-  iconPassword: {
-    height: 20,
-    position: 'absolute',
-    bottom: 60,
-    left: 105
-  }
-
-});

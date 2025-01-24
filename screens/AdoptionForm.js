@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, TextInput, Pressable, ScrollView, TouchableOpacity, Alert, Linking, Modal } from 'react-native';
+import styles from '../styles/AdoptionFormStyles';
+
+import {Text, View, Image, TextInput, Pressable, ScrollView, TouchableOpacity, Alert, Linking, Modal } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
 
@@ -117,8 +119,10 @@ export default function AdoptionForm() {
 
   return (
     <ScrollView style={styles.Container}>
-      <View style={styles.ContainerContent}>
+      <View style={styles.ContainerHeading}>
         <Text style={styles.TextHeading}>Pet Adoption Application Form</Text>
+      </View>
+      <View style={styles.ContainerContent}>
         <Text style={styles.TextSubheading}>Personal Information</Text>
         <View style={styles.horizontalLine}></View>
 
@@ -148,7 +152,7 @@ export default function AdoptionForm() {
         <TextInput style={[styles.textInput, styles.inputParagraph]} multiline={true} numberOfLines={5} value={petCarePlan} onChangeText={text => setPetCarePlan(text)} />
 
         <View style={styles.flexLeftAlign}>
-          <Text style={styles.labelTextInput}>Name of the clinic you intend to bring the pet.</Text>
+          <Text style={styles.labelTextInput}>Name of the clinic you intend to bring the pet</Text>
         </View>
         <TextInput style={styles.textInput} value={clinicName} onChangeText={text => setClinicName(text)} />
 
@@ -233,141 +237,4 @@ export default function AdoptionForm() {
   );
 }
 
-const styles = StyleSheet.create({
-  Container: {
-    backgroundColor: '#F9EBD8',
-    height: '100%',
-  },
-  ContainerContent: {
-    marginTop: 50,
-    width: '85%',
-    margin: 'auto',
-    paddingBottom: '30%',
-  },
-  horizontalLine: {
-    borderWidth: 0.5,
-    width: '100%',
-    borderColor: '#A38277',
-    marginBottom: 20,
-  },
-  TextHeading: {
-    fontSize: 30,
-    color: "#6A2D2B",
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  TextSubheading: {
-    fontSize: 20,
-    color: "#6A2D2B",
-    fontWeight: 'bold',
-    marginBottom: 5,
-    marginTop: 20
-  },
-  labelTextInput: {
-    fontSize: 13,
-    marginBottom: 5,
-    textAlign: 'left',
-    color: '#A38277',
-  },
-  textInput: {
-    fontSize: 16,
-    padding: 10,
-    width: '100%',
-    borderRadius: 20,
-    marginBottom: 15,
-    borderColor: '#6A2D2B',
-    borderWidth: 2
-  },
-  inputParagraph: {
-    height: 100,
-    textAlignVertical: 'top',
-  },
-  uploadContainer: {
-    alignItems: 'center',
-    borderRadius: 20,
-  },
-  buttonUploadPicture: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  imgProfile: {
-    width: 240,
-    height: 240,
-    aspectRatio: 1,
-    borderRadius: 20
-  },
-  ButtonContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 320,
-    marginTop: 20
-  },
-  button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '70%',
-    marginBottom: 50,
-    paddingVertical: 8,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    backgroundColor: '#725144',
-  },
-  buttonText: {
-    fontSize: 20,
-    color: '#FFFFFF',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-    width: '95%',
-    alignSelf: 'center',
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    paddingBottom: 12,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-    width: '90%',
-  },
-  modalText: {
-    fontSize: 13
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  buttonConfirm: {
-    backgroundColor: '#725144',
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-    borderRadius: 5,
-    marginRight: 10,
-    elevation: 2,
-    width: '50%'
-  },
-  buttonClose: {
-    backgroundColor: '#A38277',
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-    borderRadius: 5,
-    elevation: 2,
-    width: '50%'
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
+
