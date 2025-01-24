@@ -4,7 +4,7 @@ from typing import Optional
 class Pet(BaseModel):
     pet_name: str = Field(..., min_length=1, max_length=100)
     pet_age: Optional[int] = Field(None, gt=0)
-    sex: Optional[str] = Field(None, pattern='^(female|male)$')
+    sex: Optional[str] = Field(None, pattern='^(Female|Male)$')
     location: str = Field(..., min_length=1, max_length=100)
     description: Optional[str] = Field(None)
     pet_photo: bytes = Field(...)
