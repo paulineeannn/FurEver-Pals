@@ -31,7 +31,7 @@ export default function ProfileInfo({ navigation, route }) {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(`http://${config.ipAddress}:8000/user-details?username=${username}`, {
+      const response = await fetch(`http://${config.ipAddress}:8000/user-details/${username}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
