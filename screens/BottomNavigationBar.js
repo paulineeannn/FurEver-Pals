@@ -34,10 +34,10 @@ const BottomNavigationBar = ({ navigation, route }) => {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => handleNavigate('ProfileInfo')}
+        onPress={() => handleNavigate('Profile')}
         style={{
           alignItems: 'center',
-          opacity: route.name === 'ProfileInfo' || route.name === 'ProfilePaws' ? 1 : 0.5, 1 : 0.5,
+          opacity: route.name === 'Profile' || route.name === 'ProfilePaws' ? 1 : 0.5, 1 : 0.5,
         }}
       >
         <Image source={require('../assets/icon_profile.png')} style={{ tintColor: '#FFFFFF' }} />

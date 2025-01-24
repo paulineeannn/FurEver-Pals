@@ -127,7 +127,7 @@ export default function EditProfile() {
       if (response.ok) {
         const data = await response.json();
         Alert.alert('Success', 'Update successful');
-        navigation.navigate('ProfileInfo', { username });
+        navigation.navigate('Profile', { username });
       } else {
         const errorData = await response.json();
         Alert.alert('Error', 'Update failed: ' + (errorData.detail || 'An unknown error occurred'));

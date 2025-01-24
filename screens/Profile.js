@@ -5,7 +5,7 @@ import { Text, View, Image, TouchableOpacity, Modal, Pressable, ScrollView, Aler
 import BottomNavigationBar from './BottomNavigationBar'; 
 import config from './config.js';
 
-export default function ProfileInfo({ navigation, route }) {
+export default function Profile({ navigation, route }) {
   const { username } = route.params;
   const [currentRoute, setCurrentRoute] = useState(route.name);
   const [modalVisible, setModalVisible] = useState(false);
