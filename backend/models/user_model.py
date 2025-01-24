@@ -1,7 +1,7 @@
 from pydantic import BaseModel, EmailStr, validator, Field
 from datetime import datetime
 from typing import Optional
-
+from datetime import datetime
 
 class User(BaseModel):
     username: str = Field(..., max_length=50)
@@ -29,4 +29,6 @@ class LoginModel(BaseModel):
     password: str
 
 class UserPost(BaseModel):
+    username: str
     sharedpost: str
+    date_posted: datetime

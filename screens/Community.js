@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TextInput, Modal, Pressable, RefreshControl } from 'react-native';
+import moment from 'moment';
+
 import BottomNavigationBar from './BottomNavigationBar';
 import config from './config.js';
 
@@ -13,16 +15,22 @@ export default function Community({ navigation, route }) {
 
   const confirmSubmission = async () => {
     try {
+      const requestBody = {
+        username: username,
+        sharedpost: SharedTips,
+        date_posted: moment().format('YYYY-MM-DD HH:mm:ss'),
+      };
       const response = await fetch(`http://${config.ipAddress}:8000/user-posts/${username}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ sharedpost: SharedTips }),
+        body: JSON.stringify(requestBody),
       });
   
       if (response.ok) {
         setSuccessModalVisible(true);
+        setSharedTips('');
         fetchPosts(); // Refresh posts after successful submission
       } else {
         console.error('Failed to post tip:', response.status);
@@ -31,6 +39,7 @@ export default function Community({ navigation, route }) {
       console.error('Error posting tip:', error);
     }
   };
+  
 
   const fetchPosts = async () => {
     try {
@@ -40,7 +49,8 @@ export default function Community({ navigation, route }) {
       }
       const data = await response.json();
       if (Array.isArray(data.posts)) {
-        setPosts(data.posts);
+        const sortedPosts = data.posts.sort((a, b) => new Date(b.date_posted) - new Date(a.date_posted)); // Descending order
+        setPosts(sortedPosts);
       } else {
         setPosts([]);
       }
@@ -49,6 +59,7 @@ export default function Community({ navigation, route }) {
       setPosts([]); // Set posts to an empty array in case of error
     }
   };
+  
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -89,15 +100,37 @@ export default function Community({ navigation, route }) {
           </Pressable>
         </View>
 
-        {posts.map((post, index) => (
-          <View style={styles.containerSharedTip} key={index}>
-            <View style={styles.postAccountDetails}>
-              <Image style={styles.postImage} source={require('../assets/profile-placeholder.png')} />
-              <Text style={styles.postName}>{post.username}</Text>
+        {posts.map((post, index) => {
+          // Convert the ISO date to a human-readable date and time
+          const date = new Date(post.date_posted);
+
+          const formattedDate = date.toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          });
+
+          const formattedTime = date.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true, // Ensures 12-hour format with AM/PM
+          });
+
+          return (
+            <View style={styles.containerSharedTip} key={index}>
+              <View style={styles.postAccountDetails}>
+                <Image style={styles.postImage} source={require('../assets/profile-placeholder.png')} />
+                <View>
+                  <Text style={styles.postName}>{post.username}</Text>
+                  <Text style={styles.postDate}>{`${formattedTime} ${formattedDate}`}</Text> 
+                </View>
+              </View>
+              <Text style={styles.postTip}>{post.post_content}</Text>
             </View>
-            <Text style={styles.postTip}>{post.post_content}</Text>
-          </View>
-        ))}
+          );
+        })}
+
+
       </ScrollView>
 
       <Modal
@@ -196,18 +229,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   postImage: {
-    width: 28,
-    height: 28
+    width: 37,
+    height: 37,
+    marginTop: 1
   },
   postName: {
     color: '#725144',
     fontWeight: 'bold',
-    fontSize: 20,
-    marginLeft: 3
+    fontSize: 17,
+    marginLeft: 7
+  },
+  postDate: {
+    color: '#8C6454',
+    opacity: 60,
+    fontSize: 13,
+    marginTop: 2,
+    marginLeft: 7
   },
   postTip: {
     fontSize: 15,
-    marginTop: 5,
+    marginTop: 7,
     marginLeft: 3
   },
   centeredView: {
