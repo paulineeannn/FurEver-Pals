@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from '../styles/SignInStyles';
 
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, Image, TextInput, ImageBackground, Pressable, TouchableOpacity, navigation,  Alert, Linking} from 'react-native';
+import { Text, View, Image, TextInput, ImageBackground, TouchableOpacity, navigation,  Alert, Linking} from 'react-native';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import config from './config.js';
 
@@ -22,33 +22,33 @@ export default function SignIn() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-  
-    const handleSignIn = async () => {
-      const user = {
-        username,
-        password,
-      };
-  
-      try {
-        const response = await fetch(`http://${config.ipAddress}:8000/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(user),
-        });
-  
-        if (response.ok) {
-          const data = await response.json();
-          navigation.dispatch(
-            CommonActions.reset({
-              index: 0,
-              routes: [
-                { name: 'Profile', params: { username } },
-              ],
-            })
-          );
-        } else {
+
+      const handleSignIn = async () => {
+        const user = {
+          username,
+          password,
+        };
+        try {
+          const response = await fetch(`http://${config.ipAddress}:8000/login`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
+            
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [
+                  { name: 'Profile', params: { username } },
+                ],
+              })
+            );
+          } else {
           const errorData = await response.json();
           Alert.alert(
             'Error',
@@ -89,9 +89,9 @@ export default function SignIn() {
               <Image style={styles.iconPassword} source={passwordIconSource} />
             </TouchableOpacity>
 
-            <Pressable style={styles.button}  onPress={handleSignIn}>
+            <TouchableOpacity style={styles.button}  onPress={handleSignIn}>
               <Text style={styles.buttonText}>Submit</Text>
-            </Pressable>
+            </TouchableOpacity>
 
 
             <View style={styles.containerOneLineText}>

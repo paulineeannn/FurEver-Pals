@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../styles/ViewAdoptStyles';
 
-import { ScrollView, Text, View, Image, Pressable, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function ViewAdopt({ route }) {
@@ -20,7 +20,7 @@ export default function ViewAdopt({ route }) {
             <Image style={styles.iconAdopt} source={require('../assets/icon-adopt.png')} />
             <Text style={[styles.valueName]}>{name}</Text>
           </View>
-          <Text style={[styles.valueSex, styles.marginLeft]}>{sex}</Text>
+          <Text style={[styles.valueSex, styles.marginLeft]}>{sex ? sex : null}</Text>
 
           <View style={styles.containerTwo}>
             <View style={styles.containerDetailsTwo}>
@@ -30,12 +30,17 @@ export default function ViewAdopt({ route }) {
 
             <View style={styles.containerDetailsTwo}>
               <Text style={styles.label}>Age</Text>
-              <Text style={styles.value}>{age}</Text>
+              <Text style={styles.value}>{age ? age : 'Unknown'}</Text>
             </View>
           </View>
+          {description ? (
+            <>
+              <Text style={[styles.marginLeft, styles.descriptionHeading]}>Description</Text>
+              <Text style={[styles.value, styles.marginLeft, styles.description]}>{description}</Text>
+            </>
+          ) : null
+        }
 
-          <Text style={[styles.marginLeft, styles.descriptionHeading]}>Description</Text>
-          <Text style={[styles.value, styles.marginLeft, styles.description]}>{description}</Text>
 
         { current_username != owner_username ? (
             <View style={styles.center}>

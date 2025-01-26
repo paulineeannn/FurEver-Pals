@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../styles/AdoptionFormStyles';
 
-import {Text, View, Image, TextInput, Pressable, ScrollView, TouchableOpacity, Alert, Linking, Modal } from 'react-native';
+import {Text, View, Image, TextInput, TouchableOpacity, ScrollView, Alert, Linking, Modal } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
 
@@ -114,7 +114,6 @@ export default function AdoptionForm() {
 
   const cancelSubmission = () => {
     setModalVisible(false);
-    // Additional cancellation logic if needed
   };
 
   return (
@@ -180,9 +179,9 @@ export default function AdoptionForm() {
         </View>
 
         <View style={styles.ButtonContainer}>
-          <Pressable style={styles.button} onPress={() => setModalVisible(true)}>
+          <TouchableOpacity style={styles.button} onPress={() => setModalVisible(true)}>
             <Text style={styles.buttonText}>Submit Form</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -197,18 +196,18 @@ export default function AdoptionForm() {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Are you sure you want to submit the form?</Text>
             <View style={styles.buttonRow}>
-              <Pressable
+              <TouchableOpacity
                 style={[styles.button, styles.buttonConfirm]}
                 onPress={confirmSubmission}
               >
                 <Text style={styles.textStyle}>Confirm</Text>
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(false)}
               >
                 <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -224,12 +223,12 @@ export default function AdoptionForm() {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Form submitted successfully!</Text>
-            <Pressable
+            <TouchableOpacity
               style={[styles.button, styles.buttonConfirm]}
               onPress={handleSuccessConfirm}
             >
               <Text style={styles.textStyle}>Confirm</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

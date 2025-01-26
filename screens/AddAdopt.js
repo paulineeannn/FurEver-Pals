@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/AddAdoptStyles';
 
-import { Text, View, Image, TextInput, Pressable, TouchableOpacity, Alert, Linking, Modal, FlatList } from 'react-native';
+import { Text, View, Image, TextInput, TouchableOpacity, Alert, Linking, Modal, FlatList } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as ImagePicker from "expo-image-picker";
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -196,9 +196,9 @@ export default function AddAdopt() {
             </View>
   
             <View style={styles.ButtonContainer}>
-              <Pressable style={styles.button} onPress={confirmSubmission}>
+              <TouchableOpacity style={styles.button} onPress={confirmSubmission}>
                 <Text style={styles.buttonText}>Post for Adoption</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
   
@@ -211,12 +211,12 @@ export default function AddAdopt() {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Pet posted successfully!</Text>
-                <Pressable
+                <TouchableOpacity
                   style={[styles.button, styles.buttonConfirm]}
                   onPress={handleAddPaws}
                 >
                   <Text style={styles.textStyle}>Confirm</Text>
-                </Pressable>
+                </TouchableOpacity>
               </View>
             </View>
           </Modal>
