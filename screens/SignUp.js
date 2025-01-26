@@ -5,6 +5,8 @@ import { Text, View, Image, TextInput, TouchableOpacity, navigation, ScrollView,
 import { useNavigation } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
+import { DatePicker } from 'react-native-woodpicker';
+
 import config from './config.js';
 
 export default function SignUp() {
@@ -25,6 +27,11 @@ export default function SignUp() {
 
   const [file, setFile] = useState(null);   // Stores the selected image URI 
   const [errorMessage, setErrorMessage] = useState(null); // Stores any error message 
+
+  const handleText = () => 
+    birthday
+      ? birthday.toDateString()
+      : "Select date";
 
   // Function to pick an image from  the device's media library 
   const pickImage = async () => {
@@ -66,7 +73,7 @@ export default function SignUp() {
   const [firstname, setFirstname] = useState('');
   const [middlename, setMiddlename] = useState('');
   const [lastname, setLastname] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [birthday, setBirthday] = useState(null);
   const [mobilenum, setMobilenum] = useState('');
   const [address, setAddress] = useState('');
   const [petKnowledge, setPetKnowledge] = useState(0);
@@ -77,7 +84,6 @@ export default function SignUp() {
   const handleSignUp = async () => {
     try {
       let base64data;
-  
       if (!file) {
         // Encode the placeholder image to Base64
         const placeholder = require('../assets/profile-placeholder2.png'); 
@@ -116,7 +122,7 @@ export default function SignUp() {
         firstname,
         middlename,
         lastname,
-        birthday,
+        birthday: birthday.toISOString().split("T")[0],
         mobilenum,
         address,
         pet_knowledge: petKnowledge,
@@ -125,7 +131,6 @@ export default function SignUp() {
         environment: environment,
         profile_photo: base64data, 
       };
-  
       const response = await fetch(`http://${config.ipAddress}:8000/register`, {
         method: 'POST',
         headers: {
@@ -235,9 +240,21 @@ export default function SignUp() {
               <TextInput style={styles.textInputHalf}  value={lastname} onChangeText={text => setLastname(text)}/>
             </View>
 
-            <View style={styles.flexColumn}>
+            <View style={[styles.flexColumn, styles.containerBirthday]}>
               <Text style={styles.labelTextInput}>Birthday*</Text>
-              <TextInput style={styles.textInputHalf} placeholder='YYYY-MM-DD'  value={birthday} onChangeText={text => setBirthday(text)}/>
+              <DatePicker
+                value={birthday}
+                onDateChange={setBirthday}
+                style={styles.birthdayPicker}
+                containerStyle={styles.containerPicker}
+                title=""
+                text={handleText()}
+                isNullable={false}
+                textInputStyle={styles.birthdayInput}
+                maximumDate={new Date(Date.now())}
+                iosMode="date"
+                iosDisplay="inline"
+              />
             </View>
           </View>
 

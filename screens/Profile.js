@@ -99,6 +99,12 @@ export default function Profile({ navigation, route }) {
   const { firstname, middlename, lastname, birthday, mobilenum, address, pet_knowledge, stable_living, flex_time_sched, environment, profile_photo } = userInfo;
   
   const trimmedBirthday = birthday.substring(0, 10);
+  const dateObject = new Date(trimmedBirthday);
+  const formattedBirthday = dateObject.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   const calculateWidth = (value) => {
     switch (value) {
@@ -172,7 +178,7 @@ export default function Profile({ navigation, route }) {
                   <Text style={styles.infoLabel}>City:</Text>
                 </View>
                 <View style={styles.infoColumn2}>
-                  <Text style={styles.infoAnswer}>{trimmedBirthday}</Text>
+                  <Text style={styles.infoAnswer}>{formattedBirthday}</Text>
                   <Text style={styles.infoAnswer}>{mobilenum}</Text>
                   <Text style={styles.infoAnswer}>{address}</Text>
                 </View>

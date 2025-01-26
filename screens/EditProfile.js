@@ -6,12 +6,19 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from 'expo-file-system';  // Import FileSystem
+import { DatePicker } from 'react-native-woodpicker';
+
 import config from './config.js';
 
 export default function EditProfile() {
   const navigation = useNavigation();
   const route = useRoute();
   const { username } = route.params;
+
+  const handleText = () => 
+    birthday
+      ? birthday.toDateString()
+      : "Select date";
 
   const [file, setFile] = useState(null);
   const [profile_photo, setProfilePhoto] = useState(null);  // Add state for profile photo
@@ -23,7 +30,7 @@ export default function EditProfile() {
   const [firstname, setFirstname] = useState('');
   const [middlename, setMiddlename] = useState('');
   const [lastname, setLastname] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [birthday, setBirthday] = useState(null);
   const [mobilenum, setMobilenum] = useState('');
   const [address, setAddress] = useState('');
   const [petKnowledge, setPetKnowledge] = useState(0);
@@ -58,7 +65,7 @@ export default function EditProfile() {
     setFirstname(data.firstname);
     setMiddlename(data.middlename);
     setLastname(data.lastname);
-    setBirthday(data.birthday.substring(0, 10)); 
+    setBirthday(data.birthday ? new Date(data.birthday) : null);
     setMobilenum(data.mobilenum);
     setAddress(data.address);
     setPetKnowledge(data.pet_knowledge);
@@ -116,7 +123,7 @@ export default function EditProfile() {
       firstname,
       middlename,
       lastname,
-      birthday,
+      birthday: birthday.toISOString().split("T")[0],
       mobilenum,
       address,
       pet_knowledge: petKnowledge,
@@ -205,9 +212,21 @@ export default function EditProfile() {
               <TextInput style={styles.textInputHalf} value={lastname} onChangeText={text => setLastname(text)} />
             </View>
 
-            <View style={styles.flexColumn}>
+            <View style={[styles.flexColumn, styles.containerBirthday]}>
               <Text style={styles.labelTextInput}>Birthday*</Text>
-              <TextInput style={styles.textInputHalf} placeholder='YYYY-MM-DD' value={birthday} onChangeText={text => setBirthday(text)} />
+              <DatePicker
+                value={birthday}
+                onDateChange={setBirthday}
+                style={styles.birthdayPicker}
+                containerStyle={styles.containerPicker}
+                title=""
+                text={handleText()}
+                isNullable={false}
+                textInputStyle={styles.birthdayInput}
+                maximumDate={new Date(Date.now())}
+                iosMode="date"
+                iosDisplay="inline"
+              />
             </View>
           </View>
 

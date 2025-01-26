@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
 Container: {
     backgroundColor: COLORS.modalText,
   },
-uploadContainer: {
+  uploadContainer: {
     position: 'absolute',
     top: 60,
     left: 0,
@@ -13,14 +13,14 @@ uploadContainer: {
     alignItems: 'center',
     zIndex: 1,
   },
-buttonUploadPicture: {
+  buttonUploadPicture: {
     height: DIMENSIONS.profileImgSize / 2.4,
     width: DIMENSIONS.profileImgSize / 2.4,
     borderRadius: DIMENSIONS.profileImgSize / 4.8,
     justifyContent: 'center',
     alignItems: 'center',
   },
-imgProfile: {
+  imgProfile: {
     width: DIMENSIONS.profileImgSize / 1.5,
     height: DIMENSIONS.profileImgSize / 1.5,
     borderRadius: DIMENSIONS.profileImgSize / 2.4,
@@ -96,6 +96,19 @@ textInputHalf: {
     backgroundColor: '#E8DFDD',
     borderRadius: DIMENSIONS.borderRadiusMedium,
     marginBottom: DIMENSIONS.marginMedium,
+  },
+  birthdayPicker: {
+    marginLeft: 10,
+    marginTop: 7
+  },
+  containerPicker: {
+    backgroundColor: '#E8DFDD',
+    height: 36,
+    borderRadius: 10,
+    marginBottom: 0
+  },
+  birthdayInput: {
+    fontSize: 13,
   },
 Slider: {
     width: '85%',

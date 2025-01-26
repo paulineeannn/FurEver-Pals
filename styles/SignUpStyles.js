@@ -62,6 +62,19 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 15,
   },
+  birthdayPicker: {
+    marginLeft: 10,
+    marginTop: 7
+  },
+  containerPicker: {
+    backgroundColor: '#E8DFDD',
+    height: 36,
+    borderRadius: 10,
+    marginBottom: 0
+  },
+  birthdayInput: {
+    fontSize: 13,
+  },
   flexLeftAlign: {
     width: '83%',
   },
