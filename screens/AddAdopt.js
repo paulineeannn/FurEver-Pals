@@ -68,7 +68,7 @@ export default function AddAdopt() {
       const blob = await response.blob();
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64data = reader.result.split(',')[1]; // Get base64 string
+        const base64data = reader.result.split(',')[1]; 
   
         const payload = {
           username,
@@ -129,8 +129,10 @@ export default function AddAdopt() {
       keyExtractor={(item, index) => index.toString()}
       ListHeaderComponent={
         <>
-          <View style={styles.ContainerContent}>
+          <View style={styles.ContainerHeading}>
             <Text style={styles.TextHeading}>Post Pet</Text>
+          </View>
+          <View style={styles.ContainerContent}>
             <Text style={styles.TextSubheading}>Pet Information</Text>
             <View style={styles.horizontalLine}></View>
             <View style={styles.flexLeftAlign}>

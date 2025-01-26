@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     width: '100%',
-    padding: '7%',
+    padding: '6%',
   },
   ContainerContent: {
     marginTop: DIMENSIONS.marginMedium,

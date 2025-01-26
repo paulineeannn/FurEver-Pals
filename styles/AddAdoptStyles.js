@@ -7,10 +7,15 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     ContainerContent: {
-        marginTop: DIMENSIONS.marginLarge * 2.5,
         width: '85%',
         margin: 'auto',
         paddingBottom: '70%',
+    },
+    ContainerHeading: {
+        backgroundColor: COLORS.secondary,
+        width: '100%',
+        height: '7.5%',
+        justifyContent: 'center'
     },
     horizontalLine: {
         borderWidth: 0.5,
@@ -20,9 +25,10 @@ const styles = StyleSheet.create({
     },
     TextHeading: {
         fontSize: FONT_SIZES.heading,
-        color: COLORS.primary,
+        color: COLORS.white,
         textAlign: 'center',
         fontWeight: 'bold',
+        marginTop: '7%',
     },
     TextSubheading: {
         fontSize: FONT_SIZES.subheading,
@@ -89,7 +95,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         flexDirection: 'row',
         position: 'absolute',
-        top: DIMENSIONS.profileImgSize * 0.725,
+        top: DIMENSIONS.profileImgSize * 0.58,
     },
     marginTop: {
         marginTop: DIMENSIONS.marginLarge * 4,
