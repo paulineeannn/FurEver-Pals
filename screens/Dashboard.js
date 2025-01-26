@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState, useEffect } from 'react';
 import styles from '../styles/DashboardStyles';
 
 import { Text, View, Image, ScrollView, TouchableOpacity, TextInput, RefreshControl } from 'react-native';
@@ -15,6 +16,13 @@ export default function Dashboard({ navigation, route }) {
   useEffect(() => {
     fetchPets();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      // Fetch pets whenever the screen is focused
+      fetchPets();
+    }, [])
+  );
 
   const fetchPets = async () => {
     try {
