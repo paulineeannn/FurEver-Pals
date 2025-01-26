@@ -44,7 +44,7 @@ export default function SignIn() {
               CommonActions.reset({
                 index: 0,
                 routes: [
-                  { name: 'Profile', params: { username } },
+                  { name: 'Dashboard', params: { username } },
                 ],
               })
             );
