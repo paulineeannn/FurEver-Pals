@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/ProfileStyles';
 
-import { Text, View, Image, TouchableOpacity, Modal, Pressable, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import { Text, View, Image, Modal, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import BottomNavigationBar from './BottomNavigationBar'; 
 import config from './config.js';
 
@@ -96,7 +96,8 @@ export default function Profile({ navigation, route }) {
     return <ActivityIndicator />;
   }
 
-  const { firstname, middlename, lastname, birthday, mobilenum, address, pet_knowledge, stable_living, flex_time_sched, environment } = userInfo;
+  const { firstname, middlename, lastname, birthday, mobilenum, address, pet_knowledge, stable_living, flex_time_sched, environment, profile_photo } = userInfo;
+  
   const trimmedBirthday = birthday.substring(0, 10);
 
   const calculateWidth = (value) => {
@@ -128,7 +129,7 @@ export default function Profile({ navigation, route }) {
       </View>
       <ScrollView style={styles.Container}>
         <View style={styles.accountContainer}>
-          <Image style={styles.imageProfile} source={require('../assets/profile-placeholder.png')} />
+          <Image style={styles.imageProfile} source={{ uri: `data:image/jpeg;base64,${profile_photo}` }} />
           <View style={styles.accountInfoContainer}>
             <Text style={styles.textName}>{`${firstname} ${middlename ? middlename + ' ' : ''}${lastname}`}</Text>
             <Text style={styles.textUsername}>{username}</Text>
@@ -205,41 +206,48 @@ export default function Profile({ navigation, route }) {
           </View>
         ) : (
           <View style={styles.containerProfile}>
-            <View style={styles.containerProfileContent}>
-              <View style={styles.containerPaws}>
-                {pets.length === 0 ? (
-                  <Text style={styles.noPetsText}>No pets found.</Text>
-                ) : (
-                  pets.map((pet, index) => (
-                    <TouchableOpacity
-                      key={index}
-                      style={styles.containerPetGallery}
-                      onPress={() =>
-                        navigation.navigate('ViewAdopt', {
-                          username: pet.username,
-                          navigation: navigation,
-                          route: route,
-                          name: pet.pet_name,
-                          age: pet.pet_age,
-                          sex: pet.sex,
-                          location: pet.location,
-                          description: pet.description,
-                          image: `data:image/jpeg;base64,${pet.pet_photo}`
-                        })
-                      }
-                    >
-                      <Image style={styles.galleryImg} source={{ uri: `data:image/jpeg;base64,${pet.pet_photo}` }} resizeMode="cover" />
-                      <View style={styles.galleryLine}>
-                        <View style={styles.galleryInfo}>
-                          <Text style={styles.petName}>{pet.pet_name}</Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  ))
-                )}
+  <View style={styles.containerProfileContent}>
+    <View style={styles.containerPaws}>
+      {pets.length === 0 ? (
+        <View style={styles.containerEmptyPaws}>
+          <Text style={styles.noPetsText}>You haven’t listed any pets for adoption yet!</Text>
+          <TouchableOpacity style={styles.buttonAddAdopt} onPress={() => navigation.navigate('AddAdopt', { username })}>
+            <Text style={styles.textAdd}>Post pet</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.postedPetsContainer}>
+          {pets.map((pet, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.containerPetGallery}
+              onPress={() =>
+                navigation.navigate('ViewAdopt', {
+                  username: pet.username,
+                  navigation: navigation,
+                  route: route,
+                  name: pet.pet_name,
+                  age: pet.pet_age,
+                  sex: pet.sex,
+                  location: pet.location,
+                  description: pet.description,
+                  image: `data:image/jpeg;base64,${pet.pet_photo}`,
+                })
+              }
+            >
+              <Image style={styles.galleryImg} source={{ uri: `data:image/jpeg;base64,${pet.pet_photo}` }} resizeMode="cover" />
+              <View style={styles.galleryLine}>
+                <View style={styles.galleryInfo}>
+                  <Text style={styles.petName}>{pet.pet_name}</Text>
+                </View>
               </View>
-            </View>
-          </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+    </View>
+  </View>
+</View>
         )}
         <View style={styles.centeredView}>
           <Modal
@@ -255,18 +263,18 @@ export default function Profile({ navigation, route }) {
               <View style={styles.modalView}>
                 <Text style={styles.modalText}>Are you sure you want to logout?</Text>
                 <View style={styles.buttonRow}>
-                  <Pressable
+                  <TouchableOpacity
                     style={[styles.button, styles.buttonConfirm]}
                     onPress={handleConfirmLogout}
                   >
                     <Text style={styles.textStyle}>Confirm</Text>
-                  </Pressable>
-                  <Pressable
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={[styles.button, styles.buttonClose]}
                     onPress={handleCancelLogout}
                   >
                     <Text style={styles.textStyle}>Cancel</Text>
-                  </Pressable>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

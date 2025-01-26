@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     valueName: {
-      fontSize: FONT_SIZES.heading,
+      fontSize: FONT_SIZES.heading + 2,
       fontWeight: 'bold',
       color: COLORS.primary,
       marginLeft: DIMENSIONS.marginSmall,

@@ -72,6 +72,8 @@ const styles = StyleSheet.create({
     width: 37, 
     height: 37, 
     marginTop: 1,
+    borderRadius: 100, 
+    aspectRatio: 1,
   },
   postName: {
     color: COLORS.modalText,

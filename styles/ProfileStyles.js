@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 15,
+    minHeight: '100%'
   },
 
   // Rounded edge container
@@ -175,11 +176,45 @@ const styles = StyleSheet.create({
     width: '97%',
     flexWrap: 'wrap',
     flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  containerEmptyPaws: {
+    width: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  }, 
+  noPetsText: {
+    textAlign: 'center',
+    fontSize: FONT_SIZES.extraLarge,
+    color: COLORS.primary,
+    marginBottom: DIMENSIONS.marginMedium,
+  },  
+  buttonAddAdopt: {
+    backgroundColor: COLORS.buttonBackground,
+    borderRadius: DIMENSIONS.borderRadiusMedium,
+    width: '40%',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    alignItems: 'center',
+  },
+  textAdd: {
+    color: COLORS.primary,
+    fontSize: FONT_SIZES.extraLarge - 3,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  postedPetsContainer : {
+    width: '100%',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'left',
   },
   containerPetGallery: {
     backgroundColor: "#FFFFFF",
     borderRadius: 15,
-    margin: 5
+    margin: 5,
+    width: 155
   },
   galleryImg: {
     width: 155, 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/SignUpStyles';
 
-import { Text, View, Image, TextInput, Pressable, navigation, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
+import { Text, View, Image, TextInput, TouchableOpacity, navigation, ScrollView, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
@@ -56,7 +56,6 @@ export default function SignUp() {
         const selectedUri = result.assets[0].uri;
         setFile(selectedUri);
         setErrorMessage(null);
-        console.log("File updated:", selectedUri);
       }
     }
   };
@@ -76,24 +75,57 @@ export default function SignUp() {
   const [environment, setEnvironment] = useState(0);
 
   const handleSignUp = async () => {
-    const user = {
-      username,
-      email,
-      password,
-      firstname,
-      middlename,
-      lastname,
-      birthday,
-      mobilenum,
-      address,
-      pet_knowledge: petKnowledge,
-      stable_living: stableLiving,
-      flex_time_sched: flexTimeSched,
-      environment: environment,
-    };
-
-
     try {
+      let base64data;
+  
+      if (!file) {
+        // Encode the placeholder image to Base64
+        const placeholder = require('../assets/profile-placeholder2.png'); 
+        const response = await fetch(Image.resolveAssetSource(placeholder).uri);
+        const blob = await response.blob();
+        const reader = new FileReader();
+  
+        await new Promise((resolve, reject) => {
+          reader.onloadend = () => {
+            base64data = reader.result.split(',')[1];  // Get base64 string
+            resolve();
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      } else {
+        // Encode the selected user image to Base64
+        const response = await fetch(file);
+        const blob = await response.blob();
+        const reader = new FileReader();
+  
+        await new Promise((resolve, reject) => {
+          reader.onloadend = () => {
+            base64data = reader.result.split(',')[1]; 
+            resolve();
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        });
+      }
+  
+      const user = {
+        username,
+        email,
+        password,
+        firstname,
+        middlename,
+        lastname,
+        birthday,
+        mobilenum,
+        address,
+        pet_knowledge: petKnowledge,
+        stable_living: stableLiving,
+        flex_time_sched: flexTimeSched,
+        environment: environment,
+        profile_photo: base64data, 
+      };
+  
       const response = await fetch(`http://${config.ipAddress}:8000/register`, {
         method: 'POST',
         headers: {
@@ -101,33 +133,21 @@ export default function SignUp() {
         },
         body: JSON.stringify(user),
       });
-    
+  
       if (response.ok) {
-        const data = await response.json();
         Alert.alert('Success', 'Registration successful');
         navigation.navigate('SignIn');
-        console.log("successful");
       } else {
         const errorData = await response.json();
-        if (errorData && errorData.detail) {
-          // Extract the error message from the response
-          const message = errorData.detail.map((err) => err.msg).join(', ');
-          setErrorMessage(message); // Store the error message
-        } else {
-          setErrorMessage('An unknown error occurred.');
-        }
-        setErrorMessage('Registration failed:', errorData);
-        console.info("Aaaaaaaaaaaaaa", errorMessage);
-        console.error("Registration failed" || response.statusText);
-        // console.error("Registration failed:", errorData || response.statusText); // Log more detailed error
+        const message = errorData?.detail?.map((err) => err.msg).join(', ') || 'Registration failed.';
+        setErrorMessage(message);
       }
     } catch (error) {
-      console.error('Error:', error); // Log the original error
-      // Alert.alert('Error', 'An error occurred during registration');
-      console.log("Network or server error:", error); // Log network/server-related error
+      console.error('Error:', error);
       setErrorMessage('Network error or server is down.');
     }
   };
+  
 
   return (
     <ScrollView style={styles.Container}>
@@ -136,11 +156,11 @@ export default function SignUp() {
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{errorMessage}</Text>
             <View style={styles.buttonRow}>
-              <Pressable
+              <TouchableOpacity
                 style={styles.buttonClose}
                 onPress={handleCloseError}>
                 <Text style={styles.textStyle}>Close</Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -295,9 +315,9 @@ export default function SignUp() {
           />
           
           <View style={styles.CenterContainer}>
-            <Pressable style={styles.button}  onPress={handleSignUp}>
+            <TouchableOpacity style={styles.button} onPress={handleSignUp}>
               <Text style={styles.buttonText}>Sign Up</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
 

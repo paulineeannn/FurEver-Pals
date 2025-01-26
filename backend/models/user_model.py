@@ -17,6 +17,7 @@ class User(BaseModel):
     stable_living: int = Field(..., ge=0, le=5)
     flex_time_sched: int = Field(..., ge=0, le=5)
     environment: int = Field(..., ge=0, le=5)
+    profile_photo: bytes = Field(...)
 
     @validator('birthday')
     def invalid_birthday(cls, v):

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/EditProfileStyles';
 
-import { Text, View, Image, TextInput, Pressable, ScrollView, TouchableOpacity, Alert, Linking, ActivityIndicator } from 'react-native';
+import { Text, View, Image, TextInput, TouchableOpacity, ScrollView, Alert, Linking, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from 'expo-file-system';  // Import FileSystem
 import config from './config.js';
 
 export default function EditProfile() {
@@ -13,6 +14,7 @@ export default function EditProfile() {
   const { username } = route.params;
 
   const [file, setFile] = useState(null);
+  const [profile_photo, setProfilePhoto] = useState(null);  // Add state for profile photo
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -56,13 +58,14 @@ export default function EditProfile() {
     setFirstname(data.firstname);
     setMiddlename(data.middlename);
     setLastname(data.lastname);
-    setBirthday(data.birthday.substring(0, 10)); // Assuming the birthday format is YYYY-MM-DDTHH:MM:SS
+    setBirthday(data.birthday.substring(0, 10)); 
     setMobilenum(data.mobilenum);
     setAddress(data.address);
     setPetKnowledge(data.pet_knowledge);
     setStableLiving(data.stable_living);
     setFlexTimeSched(data.flex_time_sched);
     setEnvironment(data.environment);
+    setProfilePhoto(data.profile_photo);  
   };
 
   useEffect(() => {
@@ -94,6 +97,13 @@ export default function EditProfile() {
         const selectedUri = result.assets[0].uri;
         setFile(selectedUri);
         setError(null);
+
+        // Convert selected image to base64
+        const base64Image = await FileSystem.readAsStringAsync(selectedUri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+
+        setProfilePhoto(base64Image);  // Store the base64 encoded image
       }
     }
   };
@@ -113,6 +123,7 @@ export default function EditProfile() {
       stable_living: stableLiving,
       flex_time_sched: flexTimeSched,
       environment: environment,
+      profile_photo: profile_photo,  
     };
 
     try {
@@ -137,8 +148,6 @@ export default function EditProfile() {
       console.error('Error:', error);
       Alert.alert('Error', 'An error occurred during updating');
     }
-
-    setKey(prevKey => prevKey + 1);
   };
 
   if (!userInfo) {
@@ -149,8 +158,8 @@ export default function EditProfile() {
     <ScrollView style={styles.Container}>
       <View style={styles.uploadContainer}>
         <TouchableOpacity style={styles.buttonUploadPicture} onPress={pickImage}>
-          {file ? (
-            <Image style={styles.imgProfile} source={{ uri: file }} resizeMode="cover" />
+          {file || profile_photo ? (
+            <Image style={styles.imgProfile} source={{ uri: `data:image/jpeg;base64,${profile_photo || file}` }} resizeMode="cover" />
           ) : (
             <Image
               style={styles.imgProfile}
@@ -274,9 +283,9 @@ export default function EditProfile() {
           />
 
           <View style={styles.CenterContainer}>
-            <Pressable style={styles.button} onPress={handleEdit}>
+            <TouchableOpacity style={styles.button} onPress={handleEdit}>
               <Text style={styles.buttonText}>Update</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </View>

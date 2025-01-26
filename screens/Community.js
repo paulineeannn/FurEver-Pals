@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/CommunityStyles';
 
-import { Text, View, Image, ScrollView, TextInput, Modal, Pressable, RefreshControl } from 'react-native';
+import { Text, View, Image, ScrollView, TextInput, Modal, TouchableOpacity, RefreshControl } from 'react-native';
 import moment from 'moment';
 
 import BottomNavigationBar from './BottomNavigationBar';
@@ -58,7 +58,7 @@ export default function Community({ navigation, route }) {
       }
     } catch (error) {
       console.error('Error fetching posts:', error);
-      setPosts([]); // Set posts to an empty array in case of error
+      setPosts([]); 
     }
   };
   
@@ -97,9 +97,9 @@ export default function Community({ navigation, route }) {
         />
 
         <View style={styles.containerShareButton}>
-          <Pressable style={styles.shareButton} onPress={confirmSubmission}>
+          <TouchableOpacity style={styles.shareButton} onPress={confirmSubmission}>
             <Text style={styles.shareButtonText}>Share</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         {posts.map((post, index) => {
@@ -121,7 +121,7 @@ export default function Community({ navigation, route }) {
           return (
             <View style={styles.containerSharedTip} key={index}>
               <View style={styles.postAccountDetails}>
-                <Image style={styles.postImage} source={require('../assets/profile-placeholder.png')} />
+                <Image style={styles.postImage} source={{ uri: `data:image/jpeg;base64,${post.profile_photo}` }} />
                 <View>
                   <Text style={styles.postName}>{post.username}</Text>
                   <Text style={styles.postDate}>{`${formattedTime} ${formattedDate}`}</Text> 
@@ -144,7 +144,7 @@ export default function Community({ navigation, route }) {
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Tip posted successfully!</Text>
-            <Pressable
+            <TouchableOpacity
               style={[styles.button, styles.buttonConfirm]}
               onPress={() => {
                 setSuccessModalVisible(false);
@@ -152,7 +152,7 @@ export default function Community({ navigation, route }) {
               }}
             >
               <Text style={styles.textStyle}>Confirm</Text>
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
