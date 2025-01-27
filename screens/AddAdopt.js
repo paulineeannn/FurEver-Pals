@@ -104,7 +104,7 @@ export default function AddAdopt() {
           pet_name: name,
           pet_age: age ? parseInt(age, 10) : null,
           sex: value,
-          location: address,
+          location: complete_address,
           description,
           pet_photo: base64data,
         };
@@ -126,12 +126,10 @@ export default function AddAdopt() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-
       if (!response.ok) {
         handleServerError(response);
         return;
       }
-
       setSuccessModalVisible(true);
     } catch (error) {
       const isNetworkError = error.message.includes('Network request failed');
