@@ -44,19 +44,22 @@ const styles = StyleSheet.create({
     margin: 'auto',
     paddingBottom: '30%',
   },
+  // Horizontal divider line
   horizontalLine: {
     borderWidth: DIMENSIONS.borderWidth,
     width: '100%',
     borderColor: COLORS.secondary,
     marginBottom: DIMENSIONS.marginMedium,
   },
+  // Main heading text
   TextHeading: {
     fontSize: FONT_SIZES.heading,
     color: COLORS.white,
     textAlign: 'center',
     fontWeight: 'bold',
-    marginTop: '5%'
+    marginTop: '5%',
   },
+  // Subheading text style
   TextSubheading: {
     fontSize: FONT_SIZES.subheading,
     color: COLORS.primary,
@@ -64,12 +67,14 @@ const styles = StyleSheet.create({
     marginBottom: DIMENSIONS.marginSmall,
     marginTop: DIMENSIONS.marginMedium,
   },
+  // Label text above input fields
   labelTextInput: {
     fontSize: FONT_SIZES.medium,
     marginBottom: DIMENSIONS.marginSmall,
     textAlign: 'left',
     color: COLORS.secondary,
   },
+  // Input field styling
   textInput: {
     fontSize: FONT_SIZES.large,
     padding: DIMENSIONS.marginMedium,
@@ -79,14 +84,17 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     borderWidth: DIMENSIONS.borderWidth,
   },
+  // Textarea style for paragraphs
   inputParagraph: {
-    height: DIMENSIONS.imageHeight / 4, // Adjust based on desired paragraph height
+    height: DIMENSIONS.imageHeight / 4,
     textAlignVertical: 'top',
   },
+  // Container for upload section
   uploadContainer: {
     alignItems: 'center',
     borderRadius: DIMENSIONS.borderRadiusLarge,
   },
+  // Button for uploading a picture
   buttonUploadPicture: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -103,6 +111,7 @@ const styles = StyleSheet.create({
     width: DIMENSIONS.buttonWidth,
     marginTop: DIMENSIONS.marginLarge,
   },
+  // General button
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -117,6 +126,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.large,
     color: COLORS.white,
   },
+  // Centered layout for modal views
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -125,6 +135,7 @@ const styles = StyleSheet.create({
     width: '95%',
     alignSelf: 'center',
   },
+  // Modal container
   modalView: {
     margin: DIMENSIONS.marginMedium,
     backgroundColor: COLORS.white,
@@ -142,10 +153,12 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: '90%',
   },
+ // Text inside modal
   modalText: {
     fontSize: FONT_SIZES.medium,
     color: COLORS.modalText,
   },
+  // Row layout for buttons
   buttonRow: {
     flexDirection: 'row',
     marginTop: DIMENSIONS.marginSmall,

@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
   },
+  // Header Title
   headerText: {
     marginTop: 40,
     color: COLORS.white,
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.medium,
     marginBottom: DIMENSIONS.marginMedium,
   },
+  // Multiline input style for paragraphs
   inputParagraph: {
     fontSize: FONT_SIZES.large,
     padding: DIMENSIONS.marginMedium,
@@ -61,6 +63,7 @@ const styles = StyleSheet.create({
     marginLeft: DIMENSIONS.marginLarge,
     marginTop: DIMENSIONS.marginLarge,
   },
+  // Container for positioning the share button
   containerShareButton: {
     display: 'flex',
     alignItems: 'flex-end',
@@ -88,6 +91,7 @@ const styles = StyleSheet.create({
     marginTop: DIMENSIONS.marginMedium,
     padding: DIMENSIONS.marginMedium,
   },
+  // Layout for user account details in a post
   postAccountDetails: {
     display: 'flex',
     flexDirection: 'row',
@@ -112,6 +116,7 @@ const styles = StyleSheet.create({
     marginTop: DIMENSIONS.marginSmall * 0.4,
     marginLeft: DIMENSIONS.marginSmall,
   },
+  // Text style for the tip content
   postTip: {
     fontSize: FONT_SIZES.medium,
     marginTop: DIMENSIONS.marginSmall,

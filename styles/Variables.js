@@ -24,12 +24,12 @@
  */
 
 const COLORS = {
-    background: '#F9EBD8',
-    primary: '#6A2D2B',
-    secondary: '#B38E83',
-    buttonBackground: '#FBAA5A',
-    modalText: '#725144',
-    white: '#FFFFFF',
+    background: '#F9EBD8', // light beige
+    primary: '#6A2D2B', // dark brown
+    secondary: '#B38E83', // muted rose
+    buttonBackground: '#FBAA5A', // warm orange
+    modalText: '#725144', // deep mocha
+    white: '#FFFFFF', // pure white
 };
   
 const DIMENSIONS = {

@@ -25,12 +25,10 @@ import { COLORS, DIMENSIONS, FONT_SIZES } from './Variables';
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    // Container for the main view
     container: {
       flexGrow: 1,
       backgroundColor: COLORS.background,
     },
-    // Content area with padding and rounded corners
     content: {
       padding: '7%',
       paddingTop: '6%',
@@ -40,7 +38,6 @@ const styles = StyleSheet.create({
       marginTop: 360,
       zIndex: 1, 
     },
-    // Image container with absolute positioning
     containerImage: {
       display: 'flex',
       width: '100%',
@@ -48,38 +45,30 @@ const styles = StyleSheet.create({
       position: "absolute",
       top: 0,
     },
-    // Pet image styling
     petImage: {
       width: '100%',
       height: DIMENSIONS.imageHeight,
     },
-    // Header style with large font size and bold text
     header: {
       fontSize: FONT_SIZES.large,
       fontWeight: 'bold',
       marginBottom: DIMENSIONS.marginLarge,
       textAlign: 'center',
     },
-    // Container for the pet details in a column layout
+    // Container for all of the pet details
     detailContainer: {
       flexDirection: 'column',
       marginBottom: DIMENSIONS.marginMedium,
       marginTop: DIMENSIONS.marginSmall,
     },
-    // Line for displaying name details in a row
+    // Container for Paw Icon and Pet Name in one line
     lineName: {
       display: 'flex',
       flexDirection: 'row',
     },
-    // Left margin for some elements
     marginLeft: {
       marginLeft: DIMENSIONS.marginSmall,
     },
-    // First value in a row that takes up half the space
-    valuesFirst: {
-      width: '50%',
-    },
-    // Button for adoption with background color and rounded corners
     buttonAdopt: {
       backgroundColor: COLORS.buttonBackground,
       borderRadius: DIMENSIONS.borderRadiusLarge,
@@ -88,11 +77,10 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       paddingVertical: DIMENSIONS.marginSmall * 2,
     },
-    // Icon for the adoption button with top margin
     iconAdopt: {
       marginTop: DIMENSIONS.marginSmall,
     },
-    // Container for buttons placed in a row
+    // Container for the two rounded edge squares 
     containerTwo: {
       display: 'flex',
       flexDirection: 'row',
@@ -100,7 +88,7 @@ const styles = StyleSheet.create({
       width: '100%',
       marginBottom: DIMENSIONS.marginMedium,
     },
-    // Container for details with centered content and border
+    // specific container for location and age
     containerDetailsTwo: {
       width: '48%',
       display: 'flex',
@@ -112,7 +100,6 @@ const styles = StyleSheet.create({
       borderColor: COLORS.primary,
       marginTop: DIMENSIONS.marginSmall,
     },
-    // Large button text with bold styling and primary color
     buttonTextLarge: {
       fontSize: FONT_SIZES.extraLarge,
       fontWeight: 'bold',
@@ -120,7 +107,6 @@ const styles = StyleSheet.create({
       textAlign: 'center',
       marginLeft: DIMENSIONS.marginSmall,
     },
-    // Label for sections, bold with large font size
     label: {
       fontWeight: 'bold',
       fontSize: FONT_SIZES.extraLarge,
@@ -128,7 +114,6 @@ const styles = StyleSheet.create({
       width: '100%',
       textAlign: 'center',
     },
-    // Value styling for displaying information, centered and with opacity
     value: {
         flex: 1,
         color: COLORS.primary,
@@ -138,26 +123,22 @@ const styles = StyleSheet.create({
         opacity: 0.7,
         marginTop: 2,
     },
-    // Description text with left alignment
     description: {
         textAlign: 'left',
         marginBottom: '2%',
     },
-    // Heading for description with bold text and primary color
     descriptionHeading: {
         color: COLORS.primary,
         fontSize: FONT_SIZES.large,
         textAlign: 'left',
         fontWeight: 'bold',
     },
-    // Styling for the pet's name, larger font and left margin
     valueName: {
       fontSize: FONT_SIZES.heading + 2,
       fontWeight: 'bold',
       color: COLORS.primary,
       marginLeft: DIMENSIONS.marginSmall,
     },
-    // Styling for sex information with larger font and secondary color
     valueSex: {
       fontSize: FONT_SIZES.large + 5,
       fontWeight: 'bold',
@@ -165,7 +146,6 @@ const styles = StyleSheet.create({
       marginTop: 5,
       marginBottom: 5
     },
-    // Centered container for content with large top margin
     center: {
       display: 'flex',
       width: '100%',

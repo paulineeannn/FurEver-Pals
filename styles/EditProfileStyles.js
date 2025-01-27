@@ -51,7 +51,8 @@ Container: {
     aspectRatio: 1,
     marginTop: 80,
   },
-formContainer: {
+  // Main container for the form
+  formContainer: {
     borderTopRightRadius: DIMENSIONS.borderRadiusLarge * 2,
     borderTopLeftRadius: DIMENSIONS.borderRadiusLarge * 2,
     marginTop: 150,
@@ -60,7 +61,8 @@ formContainer: {
     width: '100%',
     height: '100%',
   },
-formContainerContent: {
+  // Content container inside the form
+  formContainerContent: {
     marginTop: 70,
     marginBottom: 0,
     height: '100%',
@@ -68,52 +70,59 @@ formContainerContent: {
     alignItems: 'center',
     paddingBottom: DIMENSIONS.marginLarge * 4,
   },
-formHeadingContainer: {
+  // Container for the form heading
+  formHeadingContainer: {
     alignItems: 'flex-start',
     width: '85%',
     marginTop: '7%',
   },
-formHeading: {
-    fontSize: FONT_SIZES.extraLarge,
-    fontWeight: 'bold',
-    color: COLORS.modalText,
+  formHeading: {
+      fontSize: FONT_SIZES.extraLarge,
+      fontWeight: 'bold',
+      color: COLORS.modalText,
   },
-horizontalLine: {
-    borderWidth: DIMENSIONS.borderWidth / 4,
-    width: '100%',
-    borderColor: '#D1D1D1',
-    marginTop: DIMENSIONS.marginSmall * 2,
-    marginBottom: DIMENSIONS.marginMedium,
-  },
-flexLeftAlign: {
-    width: '83%',
-  },
-labelTextInput: {
-    fontSize: FONT_SIZES.medium,
-    marginBottom: DIMENSIONS.marginSmall,
-    textAlign: 'left',
-    color: '#7F7F7F',
-  },
-textInput: {
-    fontSize: FONT_SIZES.medium,
-    padding: DIMENSIONS.marginSmall * 2,
-    width: '84%',
-    backgroundColor: '#E8DFDD',
-    borderRadius: DIMENSIONS.borderRadiusMedium,
-    marginBottom: DIMENSIONS.marginMedium,
-  },
-formTwoColumns: {
+  // Horizontal line divider  
+  horizontalLine: {
+      borderWidth: DIMENSIONS.borderWidth / 4,
+      width: '100%',
+      borderColor: '#D1D1D1',
+      marginTop: DIMENSIONS.marginSmall * 2,
+      marginBottom: DIMENSIONS.marginMedium,
+    },
+  // Left-aligned flex container
+  flexLeftAlign: {
+      width: '83%',
+    },
+  labelTextInput: {
+      fontSize: FONT_SIZES.medium,
+      marginBottom: DIMENSIONS.marginSmall,
+      textAlign: 'left',
+      color: '#7F7F7F',
+    },
+  textInput: {
+      fontSize: FONT_SIZES.medium,
+      padding: DIMENSIONS.marginSmall * 2,
+      width: '84%',
+      backgroundColor: '#E8DFDD',
+      borderRadius: DIMENSIONS.borderRadiusMedium,
+      marginBottom: DIMENSIONS.marginMedium,
+    },
+  // Layout for two-column form inputs
+  formTwoColumns: {
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
-flexColumn: {
+  // Flex container for a single column
+  flexColumn: {
     flexDirection: 'column',
     width: 160,
   },
-marginRight: {
+  // Adds right margin to an element
+  marginRight: {
     marginRight: DIMENSIONS.marginSmall * 2,
   },
-textInputHalf: {
+  // Input field for half-width inputs
+  textInputHalf: {
     fontSize: FONT_SIZES.medium,
     padding: DIMENSIONS.marginSmall * 2,
     width: '100%',
@@ -121,38 +130,42 @@ textInputHalf: {
     borderRadius: DIMENSIONS.borderRadiusMedium,
     marginBottom: DIMENSIONS.marginMedium,
   },
+  // Picker container for birthday selection
   birthdayPicker: {
     marginLeft: 10,
-    marginTop: 7
+    marginTop: 7,
   },
+  // Container for dropdown picker
   containerPicker: {
     backgroundColor: '#E8DFDD',
     height: 36,
     borderRadius: 10,
-    marginBottom: 0
+    marginBottom: 0,
   },
+  // Text styling for the birthday input
   birthdayInput: {
     fontSize: 13,
   },
-Slider: {
+  // Slider container styling
+  Slider: {
     width: '85%',
     marginBottom: DIMENSIONS.marginLarge + DIMENSIONS.marginSmall,
   },
-button: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '65%',
-    marginTop: DIMENSIONS.marginMedium + DIMENSIONS.marginSmall,
-    marginBottom: DIMENSIONS.marginLarge,
-    paddingVertical: DIMENSIONS.marginMedium + DIMENSIONS.marginSmall,
-    paddingHorizontal: DIMENSIONS.marginLarge + DIMENSIONS.marginSmall,
-    borderRadius: DIMENSIONS.borderRadiusMedium,
-    backgroundColor: COLORS.modalText,
-  },
-buttonText: {
-    fontSize: FONT_SIZES.large,
-    color: COLORS.white,
-  },
+  button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '65%',
+      marginTop: DIMENSIONS.marginMedium + DIMENSIONS.marginSmall,
+      marginBottom: DIMENSIONS.marginLarge,
+      paddingVertical: DIMENSIONS.marginMedium + DIMENSIONS.marginSmall,
+      paddingHorizontal: DIMENSIONS.marginLarge + DIMENSIONS.marginSmall,
+      borderRadius: DIMENSIONS.borderRadiusMedium,
+      backgroundColor: COLORS.modalText,
+    },
+  buttonText: {
+      fontSize: FONT_SIZES.large,
+      color: COLORS.white,
+    },
 });
 
 export default styles;

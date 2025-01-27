@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     paddingTop: '10%',
     height: '5%',
   },
+  // Container for account details (profile photo, name, username)
   accountContainer: {
     height: '53%',
     flex: 1,
@@ -72,6 +73,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: DIMENSIONS.marginMedium, 
   },
+  // Navigation container for profile sections (Paws and Info)
   profileNavContainer: {
     width: '100%',
     height: '10%',
@@ -102,8 +104,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     minHeight: '100%'
   },
-
-  // Rounded edge container
+  // Inner container for profile content
   containerProfileContent: {
     width: '88%',
     height: '100%',
@@ -155,9 +156,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: DIMENSIONS.marginLarge + 10, 
   },
+  // First column in information table
   infoColumn1: {
     width: '40%',
   },
+  // Second column in information table
   infoColumn2: {
     width: '60%',
   },
@@ -174,18 +177,20 @@ const styles = StyleSheet.create({
     color: COLORS.primary, 
     marginBottom: DIMENSIONS.marginSmall, 
   },
+  // Outer bar for progress or status
   outerBar: {
-    backgroundColor: COLORS.modalText, 
+    backgroundColor: COLORS.modalText,
     width: '100%',
     height: 27,
-    borderRadius: DIMENSIONS.borderRadiusMedium, 
-    marginBottom: DIMENSIONS.marginMedium, 
+    borderRadius: DIMENSIONS.borderRadiusMedium,
+    marginBottom: DIMENSIONS.marginMedium,
   },
+  // Inner bar for progress indication
   innerBar: {
-    backgroundColor: COLORS.secondary, 
+    backgroundColor: COLORS.secondary,
     width: '50%',
     height: '100%',
-    borderRadius: DIMENSIONS.borderRadiusMedium, 
+    borderRadius: DIMENSIONS.borderRadiusMedium,
   },
   centeredView: {
     flex: 1,
@@ -201,12 +206,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  // Container for empty state in "Paws"
   containerEmptyPaws: {
     width: '100%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   }, 
+  // Text styling for no pets message
   noPetsText: {
     textAlign: 'center',
     fontSize: FONT_SIZES.extraLarge,
@@ -227,17 +234,19 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center'
   },
-  postedPetsContainer : {
+  // Container for posted pets gallery
+  postedPetsContainer: {
     width: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'left',
   },
+  // Container for individual pet gallery items
   containerPetGallery: {
     backgroundColor: "#FFFFFF",
     borderRadius: 15,
     margin: 5,
-    width: 155
+    width: 155,
   },
   galleryImg: {
     width: 155, 

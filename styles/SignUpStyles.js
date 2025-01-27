@@ -24,11 +24,9 @@ import { StyleSheet } from 'react-native';
 import { COLORS, DIMENSIONS, FONT_SIZES } from './Variables';
 
 const styles = StyleSheet.create({
-  // Container with background color for the main view
   Container: {
     backgroundColor: COLORS.modalText,
   },
-  // Upload container with absolute positioning for centered placement
   uploadContainer: {
     position: 'absolute',
     top: 60,
@@ -37,7 +35,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     zIndex: 1,
   },
-  // Style for the upload picture button with circular shape
   buttonUploadPicture: {
     height: 100,
     width: 100,
@@ -45,7 +42,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center', 
   },
-  // Profile image with circular shape and specific margin
   imgProfile: {
     width: 160,
     height: 160,
@@ -53,7 +49,6 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     marginTop: 80,
   },
-  // Form container with rounded top corners and full width
   formContainer: {
     borderTopRightRadius: 40,
     borderTopLeftRadius: 40,
@@ -63,8 +58,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-
-  // Content inside the form container with centered items
   formContainerContent: {
     marginTop: 70,
     marginBottom: 0,
@@ -73,19 +66,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingBottom: 80,
   },
-  // Container for the form heading aligned to the left
   formHeadingContainer: {
     alignItems: 'flex-start',
     width: '85%',
     marginTop: '7%',
   },
-  // Heading style for the form with large font size and bold weight
   formHeading: {
     fontSize: 20,
     color: COLORS.modalText,
     fontWeight: 'bold',
   },
-  // Horizontal line used for separating content
+  // for separating content
   horizontalLine: {
     borderWidth: 0.5,
     width: '100%',
@@ -93,23 +84,22 @@ const styles = StyleSheet.create({
     marginTop: 8,
     marginBottom: 15,
   },
-  // Birthday picker with margin for alignment
+  // date picker
   birthdayPicker: {
     marginLeft: 10,
     marginTop: 7
   },
-  // Container for picker with a background color and rounded corners
+  // Container for date picker 
   containerPicker: {
     backgroundColor: '#E8DFDD',
     height: 36,
     borderRadius: 10,
     marginBottom: 0
   },
-  // Input field for birthday with a smaller font size
+  // Text for selected birthday 
   birthdayInput: {
     fontSize: 13,
   },
-  // Flex style to align elements to the left with width restriction
   flexLeftAlign: {
     width: '83%',
   },
@@ -120,7 +110,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#7F7F7F',
   },
-  // General text input styling with padding, background color, and rounded corners
   textInput: {
     fontSize: 13,
     padding: 10,
@@ -134,17 +123,14 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
   },
-  // Column layout with restricted width
   flexColumn: {
     flexDirection: 'column',
     width: 160,
   },
-  // Right margin for spacing between elements
   marginRight: {
     marginRight: 10,
   },
 
-  // Text input field that spans the full width
   textInputHalf: {
     fontSize: 13,
     padding: 10,
@@ -153,12 +139,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
   },
-  // Slider style with a set width and margin
   Slider: {
     width: '85%',
     marginBottom: 25,
   },
-  // Button with full width, centered content, and modal text background color
+
   button: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -170,41 +155,36 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.modalText,
   },
-  // Button text styling with white color and medium font size
   buttonText: {
     fontSize: 14,
     color: COLORS.white,
   },
 
-  // Container for one-line text with row layout and bottom margin
+  // Container for "Don't Have an account yet" text
   containerOneLineText: {
     flexDirection: 'row',
     marginBottom: 40,
   },
-  // Plain text styling with small font size and gray color
   textPlain: {
     fontSize: 13,
     color: '#7F7F7F',
   },
-  // Login text with modal text color
   logInText: {
     fontSize: 13,
     color: COLORS.modalText,
   },
-  // Centered container with fixed width for a specific element
   CenterContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     width: 300,
   },
-  // Password icon with absolute positioning inside the container
+  // Password icon with absolute positioning
   iconPassword: {
     height: 20,
     position: 'absolute',
     bottom: 23,
     left: 125,
   },
-  // Modal background with full screen coverage and centered content
   centeredView: {
     position: 'absolute',
     top: 0,
@@ -214,7 +194,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // Modal styling with padding, shadow, and border radius
   modalView: {
     margin: 20,
     borderRadius: 20,
@@ -229,13 +208,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  // Button row with space between elements
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
   },
-  // Button close with background color and rounded corners
   buttonClose: {
     width: 130,
     borderRadius: 10,
@@ -243,7 +220,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: '#A38277',
   },
-  // Text style for the button with white color and centered text
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
