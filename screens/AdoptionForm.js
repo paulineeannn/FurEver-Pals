@@ -38,9 +38,9 @@ const ERROR_MESSAGES = {
   GENERAL_ERROR: 'An error occurred during registration.',
 };
 
-export default function AdoptionForm() {
+export default function AdoptionForm({ route }) {
+  const { username } = route.params;  
   const navigation = useNavigation();
-  const route = useRoute();
 
   // State variables
   const [selectedUri, setSelectedUri] = useState(null);
@@ -85,11 +85,10 @@ export default function AdoptionForm() {
       }
     }
   };
-
   // Function to handle form submission
   const handleAddPaws = async () => {
     const user = {
-      username: route.params.username,
+      username: username,
       name: name.trim() || null,
       age: parseInt(age) || null,
       sex: value,
@@ -126,7 +125,7 @@ export default function AdoptionForm() {
   // Confirm submission and navigate to the dashboard
   const handleSuccessConfirm = () => {
     setSuccessModalVisible(false);
-    navigation.navigate('Dashboard', { navigation, route });
+    navigation.navigate('Dashboard', { username: username });
   };
 
   // Modal confirmation functions
@@ -134,19 +133,6 @@ export default function AdoptionForm() {
     setModalVisible(false);
     setSuccessModalVisible(true);
   };
-
-  // Reusable TextInputField component
-  const TextInputField = ({ label, value, onChangeText, multiline = false }) => (
-    <View>
-      <Text style={styles.labelTextInput}>{label}</Text>
-      <TextInput
-        style={[styles.textInput, multiline && styles.inputParagraph]}
-        value={value}
-        onChangeText={onChangeText}
-        multiline={multiline}
-      />
-    </View>
-  );
 
   return (
     <ScrollView style={styles.Container}>
@@ -158,35 +144,41 @@ export default function AdoptionForm() {
         <Text style={styles.TextSubheading}>Personal Information</Text>
         <View style={styles.horizontalLine} />
 
-        <TextInputField label="Name*" value={name} onChangeText={setName} />
-        <TextInputField label="Address" value={completeAddress} onChangeText={setCompleteAddress} />
-        <TextInputField
-          label="Occupation or Source of Income"
-          value={occupation}
-          onChangeText={setOccupation}
-        />
-        <TextInputField
-          label="Who will be responsible for the pet’s care?"
-          value={careResponsibility}
-          onChangeText={setCareResponsibility}
-        />
-        <TextInputField
-          label="How do you plan to care for the pet? (e.g., feeding, grooming)"
-          value={petCarePlan}
-          onChangeText={setPetCarePlan}
-          multiline
-        />
-        <TextInputField
-          label="Name of the clinic you intend to bring the pet"
-          value={clinicName}
-          onChangeText={setClinicName}
-        />
-        <TextInputField
-          label="What are your reasons for adopting a pet?"
-          value={reasonForAdoption}
-          onChangeText={setReasonForAdoption}
-          multiline
-        />
+        <View style={styles.flexLeftAlign}>
+          <Text style={styles.labelTextInput}>Name*</Text>
+        </View>
+        <TextInput style={styles.textInput} value={name} onChangeText={text => setName(text)} />
+
+        <View style={styles.flexLeftAlign}>
+          <Text style={styles.labelTextInput}>Address</Text>
+        </View>
+        <TextInput style={styles.textInput} value={completeAddress} onChangeText={text => setCompleteAddress(text)} />
+
+        <View style={styles.flexLeftAlign}>
+          <Text style={styles.labelTextInput}>Occupation or Source of Income</Text>
+        </View>
+        <TextInput style={styles.textInput} value={occupation} onChangeText={text => setOccupation(text)} />
+
+        <View style={styles.flexLeftAlign}>
+          <Text style={styles.labelTextInput}>Who will be responsible for the pet’s care?</Text>
+        </View>
+        <TextInput style={styles.textInput} value={careResponsibility} onChangeText={text => setCareResponsibility(text)} />
+
+        <View style={styles.flexLeftAlign}>
+          <Text style={styles.labelTextInput}>How do you plan to care for the pet? (e.g., feeding, grooming)</Text>
+        </View>
+        <TextInput style={[styles.textInput, styles.inputParagraph]} multiline={true} numberOfLines={5} value={petCarePlan} onChangeText={text => setPetCarePlan(text)} />
+
+        <View style={styles.flexLeftAlign}>
+          <Text style={styles.labelTextInput}>Name of the clinic you intend to bring the pet.</Text>
+        </View>
+        <TextInput style={styles.textInput} value={clinicName} onChangeText={text => setClinicName(text)} />
+
+        <View style={styles.flexLeftAlign}>
+          <Text style={styles.labelTextInput}>What are your reasons for adopting a pet?</Text>
+        </View>
+        <TextInput style={[styles.textInput, styles.inputParagraph]} multiline={true} numberOfLines={5} value={reasonForAdoption} onChangeText={text => setReasonForAdoption(text)} />
+
 
         <Text style={styles.labelTextInput}>Proof of Identity*</Text>
         <TouchableOpacity style={styles.buttonUploadPicture} onPress={pickImage}>

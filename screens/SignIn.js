@@ -26,7 +26,7 @@
  */
 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../styles/SignInStyles';
 import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, TextInput, ImageBackground, TouchableOpacity, Alert } from 'react-native';
@@ -50,6 +50,16 @@ export default function SignIn() {
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+
+  // Clear the form when the screen is focused (navigation happens)
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setUsername('');
+      setPassword('');
+    });
+
+    return unsubscribe; // Cleanup on unmount
+  }, [navigation]);
 
   // Toggle password visibility function
   const togglePasswordVisibility = () => {

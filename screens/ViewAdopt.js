@@ -32,9 +32,9 @@ import { ScrollView, Text, View, Image, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function ViewAdopt({ route }) {
-  const { current_username, owner_username, name, age, sex, location, description, image } = route.params;
+  const { username, owner_username, name, age, sex, location, description, image } = route.params;
   const navigation = useNavigation();
-
+  console.log("viewadopt", username);
   return (
     <ScrollView style={styles.container}>
       {/* Display pet image */}
@@ -73,9 +73,15 @@ export default function ViewAdopt({ route }) {
           ) : null}
 
           {/* Adoption button */}
-          {current_username !== owner_username ? (
+          {username !== owner_username ? (
             <View style={styles.center}>
-              <TouchableOpacity style={styles.buttonAdopt} onPress={() => navigation.navigate('AdoptionForm', route)}>
+              <TouchableOpacity
+                style={styles.buttonAdopt}
+                onPress={() => navigation.navigate('AdoptionForm', {
+                  username: username,  
+                  route: route,
+                })}
+              >
                 <Text style={styles.buttonTextLarge}>Adopt Me</Text>
               </TouchableOpacity>
             </View>
