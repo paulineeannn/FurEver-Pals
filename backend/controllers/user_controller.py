@@ -51,8 +51,21 @@ async def post_user_post_action(user_post: UserPost):
 async def fetch_all_posts():
     db = get_database()
     posts = db.posts.find()
-    all_posts = [{"username": post["username"], "post_id": str(post["_id"]), "post_content": post["post_content"], "date_posted":  post["date_posted"]} for post in posts]
+    all_posts = []
+
+    for post in posts:
+        user = db.users.find_one({"username": post["username"]})
+        if user:
+            all_posts.append({
+                "username": post["username"],
+                "post_id": str(post["_id"]),
+                "post_content": post["post_content"],
+                "date_posted": post["date_posted"],
+                "profile_photo": user.get("profile_photo"), 
+            })
+    
     return all_posts
+
 
 async def verify_user(username: str, password: str):
     db = get_database()
@@ -88,6 +101,7 @@ async def get_user_details_by_username(username: str):
             "stable_living":user.get("stable_living"),
             "flex_time_sched":user.get("flex_time_sched"),
             "environment":user.get("environment"),
+            "profile_photo":user.get("profile_photo"),
         }
     else:
         return None
