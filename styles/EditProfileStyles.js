@@ -1,3 +1,27 @@
+/**
+ * PROGRAM TITLE:
+ *     Style Definitions for Edit Profile Screen
+ * 
+ * PROGRAMMER/S:
+ *     Pauline Ann P. Bautista
+ * 
+ * WHERE THE PROGRAM FITS IN THE GENERAL SYSTEM DESIGNS:
+ *     This file defines the style rules used in the Edit Profile Screen.
+ * 
+ * DATE WRITTEN:
+ *     May 13, 2024
+ * 
+ * DATE REVISED:
+ *     May 16, 2024
+ * 
+ * PURPOSE:
+ *     The styles are used to create a consistent layout and design for the Edit Profile Screen, 
+ *     including sections for user input and buttons.
+ * 
+ * DATA STRUCTURES, ALGORITHMS, AND CONTROL:
+ *     The styles are structured as JavaScript objects with nested properties. 
+ */
+
 import { StyleSheet } from 'react-native';
 import { COLORS, DIMENSIONS, FONT_SIZES } from './Variables';
 

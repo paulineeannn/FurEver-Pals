@@ -1,3 +1,30 @@
+/**
+ * PROGRAM TITLE:
+ *     Edit Profile Screen
+ * 
+ * PROGRAMMER/S:
+ *     Pauline Ann P. Bautista (User Interface)
+ *     Ashley Sheine N. Jugueta (Backend/DB Connection)
+ * 
+ * WHERE THE PROGRAM FITS IN THE GENERAL SYSTEM DESIGNS:
+ *     This screen allows users to edit their profile details, including personal information, email, phone number, and profile picture.
+ * 
+ * DATE WRITTEN:
+ *     May 13, 2024
+ * 
+ * DATE REVISED:
+ *     January 26, 2025
+ * 
+ * PURPOSE:
+ *     It provides users with the functionality to update their profile information such as email, password, and personal details. 
+ *     The screen also allows users to select or upload a profile picture and save the updated information to the backend.
+ * 
+ * DATA STRUCTURES, ALGORITHMS, AND CONTROL:
+ *     The app uses state variables to store form input values like email, first name, last name, etc., and to handle the profile picture selection. 
+ *     It makes network requests using `fetch()` to retrieve and update user data. The `Slider` component is used for evaluating pet knowledge, 
+ *     stable living, and flexible time schedule ratings. `DatePicker` is used for selecting the birthday.
+ */
+
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/EditProfileStyles';
 
@@ -5,23 +32,28 @@ import { Text, View, Image, TextInput, TouchableOpacity, ScrollView, Alert, Link
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from 'expo-file-system';  // Import FileSystem
+import * as FileSystem from 'expo-file-system';  
 import { DatePicker } from 'react-native-woodpicker';
 
 import config from './config.js';
+
+// Error Messages Constants
+const ERROR_MESSAGES = {
+  FETCH_USER_FAILED: 'Failed to fetch user details. Please try again later.',
+  UPDATE_USER_FAILED: 'Failed to update user details. Please try again.',
+  IMAGE_PERMISSION_DENIED: 'Sorry, we need camera roll permission to upload images.',
+  EMPTY_RESPONSE: 'No user data found.',
+  UPDATE_FAILED: 'Update failed. Please check your input and try again.',
+  GENERIC_ERROR: 'An unknown error occurred. Please try again later.',
+};
 
 export default function EditProfile() {
   const navigation = useNavigation();
   const route = useRoute();
   const { username } = route.params;
 
-  const handleText = () => 
-    birthday
-      ? birthday.toDateString()
-      : "Select date";
-
   const [file, setFile] = useState(null);
-  const [profile_photo, setProfilePhoto] = useState(null);  // Add state for profile photo
+  const [profile_photo, setProfilePhoto] = useState(null);  
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
@@ -38,6 +70,11 @@ export default function EditProfile() {
   const [flexTimeSched, setFlexTimeSched] = useState(0);
   const [environment, setEnvironment] = useState(0);
 
+  const handleText = () => 
+    birthday
+      ? birthday.toDateString()
+      : "Select date";
+
   // Function to fetch user information from the backend
   const fetchUserInfo = async () => {
     try {
@@ -48,13 +85,14 @@ export default function EditProfile() {
           setUserInfo(data);
           populateFields(data);
         } else {
-          console.error('Empty response data');
+          setError(ERROR_MESSAGES.EMPTY_RESPONSE);
         }
       } else {
-        console.error('Failed to fetch user info. Status:', response.status);
+        setError(ERROR_MESSAGES.FETCH_USER_FAILED);
       }
     } catch (error) {
       console.error('Error fetching user info:', error);
+      setError(ERROR_MESSAGES.GENERIC_ERROR);
     }
   };
 
@@ -79,12 +117,13 @@ export default function EditProfile() {
     fetchUserInfo();
   }, []);
 
+  // Function to pick and set a new profile image
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
       Alert.alert(
         'Permission Denied',
-        'Sorry, we need camera roll permission to upload images.',
+        ERROR_MESSAGES.IMAGE_PERMISSION_DENIED,
         [
           {
             text: 'Cancel',
@@ -99,7 +138,10 @@ export default function EditProfile() {
         ]
       );
     } else {
-      const result = await ImagePicker.launchImageLibraryAsync();
+      const result = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,  
+        aspect: [1, 1],      
+      });
       if (!result.cancelled && result.assets && result.assets.length > 0) {
         const selectedUri = result.assets[0].uri;
         setFile(selectedUri);
@@ -110,11 +152,12 @@ export default function EditProfile() {
           encoding: FileSystem.EncodingType.Base64,
         });
 
-        setProfilePhoto(base64Image);  // Store the base64 encoded image
+        setProfilePhoto(base64Image);  
       }
     }
   };
 
+  // Function to handle profile updates
   const handleEdit = async () => {
     const user = {
       username,
@@ -148,72 +191,83 @@ export default function EditProfile() {
         navigation.navigate('Profile', { username });
       } else {
         const errorData = await response.json();
-        Alert.alert('Error', 'Update failed: ' + (errorData.detail || 'An unknown error occurred'));
+        Alert.alert('Error', ERROR_MESSAGES.UPDATE_FAILED + ': ' + (errorData.detail || 'An unknown error occurred'));
         console.error("Update failed:", errorData || response.statusText);
       }
     } catch (error) {
       console.error('Error:', error);
-      Alert.alert('Error', 'An error occurred during updating');
+      Alert.alert('Error', ERROR_MESSAGES.GENERIC_ERROR);
     }
   };
 
+  // Display loading spinner while user info is being fetched
   if (!userInfo) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
+  // UI rendering
   return (
     <ScrollView style={styles.Container}>
+      {/* Profile Picture Upload Section */}
       <View style={styles.uploadContainer}>
         <TouchableOpacity style={styles.buttonUploadPicture} onPress={pickImage}>
+          {/* Display the selected image or placeholder if none exists */}
           {file || profile_photo ? (
             <Image style={styles.imgProfile} source={{ uri: `data:image/jpeg;base64,${profile_photo || file}` }} resizeMode="cover" />
           ) : (
             <Image
               style={styles.imgProfile}
-              source={require('../assets/profile-placeholder2.png')}
+              source={require('../assets/profile-placeholder2.png')} // Default placeholder image
               resizeMode="cover"
             />
           )}
         </TouchableOpacity>
       </View>
-
+  
+      {/* Main Form Container */}
       <View style={styles.formContainer}>
         <View style={styles.formContainerContent}>
+          {/* Account Information Section */}
           <View style={styles.formHeadingContainer}>
             <Text style={styles.formHeading}>Account Information</Text>
             <View style={styles.horizontalLine}></View>
           </View>
-
+  
+          {/* Email Input Field */}
           <View style={styles.flexLeftAlign}>
             <Text style={styles.labelTextInput}>Email*</Text>
           </View>
           <TextInput style={styles.textInput} value={email} onChangeText={text => setEmail(text)} />
-
+  
+          {/* Personal Information Section */}
           <View style={styles.formHeadingContainer}>
             <Text style={styles.formHeading}>Personal Information</Text>
             <View style={styles.horizontalLine}></View>
           </View>
-
+  
+          {/* First and Middle Name Fields */}
           <View style={styles.formTwoColumns}>
             <View style={[styles.flexColumn, styles.marginRight]}>
               <Text style={styles.labelTextInput}>First Name*</Text>
               <TextInput style={styles.textInputHalf} value={firstname} onChangeText={text => setFirstname(text)} />
             </View>
-
+  
             <View style={styles.flexColumn}>
               <Text style={styles.labelTextInput}>Middle Name</Text>
               <TextInput style={styles.textInputHalf} value={middlename} onChangeText={text => setMiddlename(text)} />
             </View>
           </View>
-
+  
+          {/* Last Name and Birthday Fields */}
           <View style={styles.formTwoColumns}>
             <View style={[styles.flexColumn, styles.marginRight]}>
               <Text style={styles.labelTextInput}>Last Name*</Text>
               <TextInput style={styles.textInputHalf} value={lastname} onChangeText={text => setLastname(text)} />
             </View>
-
+  
             <View style={[styles.flexColumn, styles.containerBirthday]}>
               <Text style={styles.labelTextInput}>Birthday*</Text>
+              {/* Date Picker for Birthday */}
               <DatePicker
                 value={birthday}
                 onDateChange={setBirthday}
@@ -223,28 +277,31 @@ export default function EditProfile() {
                 text={handleText()}
                 isNullable={false}
                 textInputStyle={styles.birthdayInput}
-                maximumDate={new Date(Date.now())}
+                maximumDate={new Date(Date.now())} // Ensures the selected date is not in the future
                 iosMode="date"
                 iosDisplay="inline"
               />
             </View>
           </View>
-
+  
+          {/* Mobile Number and Address Fields */}
           <View style={styles.flexLeftAlign}>
             <Text style={styles.labelTextInput}>Mobile Number*</Text>
           </View>
           <TextInput style={styles.textInput} value={mobilenum} onChangeText={text => setMobilenum(text)} />
-
+  
           <View style={styles.flexLeftAlign}>
             <Text style={styles.labelTextInput}>Address*</Text>
           </View>
           <TextInput style={styles.textInput} value={address} onChangeText={text => setAddress(text)} />
-
+  
+          {/* Characteristics Section */}
           <View style={styles.formHeadingContainer}>
             <Text style={styles.formHeading}>Characteristics</Text>
             <View style={styles.horizontalLine}></View>
           </View>
-
+  
+          {/* Slider Inputs for Various Characteristics */}
           <View style={styles.flexLeftAlign}>
             <Text style={styles.labelTextInput}>Pet Knowledge*</Text>
           </View>
@@ -258,7 +315,7 @@ export default function EditProfile() {
             value={petKnowledge}
             onValueChange={value => setPetKnowledge(value)}
           />
-
+  
           <View style={styles.flexLeftAlign}>
             <Text style={styles.labelTextInput}>Stable Living*</Text>
           </View>
@@ -272,7 +329,7 @@ export default function EditProfile() {
             value={stableLiving}
             onValueChange={value => setStableLiving(value)}
           />
-
+  
           <View style={styles.flexLeftAlign}>
             <Text style={styles.labelTextInput}>Flexible Time Schedule*</Text>
           </View>
@@ -286,7 +343,7 @@ export default function EditProfile() {
             value={flexTimeSched}
             onValueChange={value => setFlexTimeSched(value)}
           />
-
+  
           <View style={styles.flexLeftAlign}>
             <Text style={styles.labelTextInput}>Environment*</Text>
           </View>
@@ -300,7 +357,8 @@ export default function EditProfile() {
             value={environment}
             onValueChange={value => setEnvironment(value)}
           />
-
+  
+          {/* Update Button */}
           <View style={styles.CenterContainer}>
             <TouchableOpacity style={styles.button} onPress={handleEdit}>
               <Text style={styles.buttonText}>Update</Text>
@@ -310,5 +368,4 @@ export default function EditProfile() {
       </View>
     </ScrollView>
   );
-}
-
+}  

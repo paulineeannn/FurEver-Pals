@@ -1,3 +1,26 @@
+/**
+ * PROGRAM TITLE:
+ *     Style Definitions for Dashboard
+ * 
+ * PROGRAMMER/S:
+ *     Pauline Ann P. Bautista
+ * 
+ * WHERE THE PROGRAM FITS IN THE GENERAL SYSTEM DESIGNS:
+ *     This file defines the style rules used in the Dashboard screen.
+ * 
+ * DATE WRITTEN:
+ *     June 28, 2024
+ * 
+ * DATE REVISED:
+ *     July 1, 2024
+ * 
+ * PURPOSE:
+ *     The styles are used to create a consistent layout and design for the Dashboard Screen
+ * 
+ * DATA STRUCTURES, ALGORITHMS, AND CONTROL:
+ *     The styles are structured as JavaScript objects with nested properties. 
+ */
+
 import { StyleSheet } from 'react-native';
 import { COLORS, DIMENSIONS, FONT_SIZES } from './Variables';
 

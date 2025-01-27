@@ -1,3 +1,27 @@
+/**
+ * PROGRAM TITLE:
+ *     Style Definitions for Community Screen
+ * 
+ * PROGRAMMER/S:
+ *     Pauline Ann P. Bautista
+ * 
+ * WHERE THE PROGRAM FITS IN THE GENERAL SYSTEM DESIGNS:
+ *     This file defines the style rules used in the Community Screen.
+ * 
+ * DATE WRITTEN:
+ *     July 1, 2024
+ * 
+ * DATE REVISED:
+ *     January 26, 2025
+ * 
+ * PURPOSE:
+ *     The styles are used to create a consistent layout and design for the Community Screen, 
+ *     including sections for user input, buttons, and modals.
+ * 
+ * DATA STRUCTURES, ALGORITHMS, AND CONTROL:
+ *     The styles are structured as JavaScript objects with nested properties. 
+ */
+
 import { StyleSheet } from 'react-native';
 import { COLORS, DIMENSIONS, FONT_SIZES } from './Variables';
 
